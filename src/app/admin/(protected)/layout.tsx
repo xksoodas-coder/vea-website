@@ -34,6 +34,12 @@ export default async function ProtectedLayout({
 
           <div className="flex items-center gap-2">
             <Link
+              href="/admin/categories"
+              className="rounded-lg px-3 py-2 text-sm font-medium text-ink-soft transition-colors duration-200 hover:bg-brand-50 hover:text-brand-600"
+            >
+              الفئات
+            </Link>
+            <Link
               href="/admin/banners"
               className="rounded-lg px-3 py-2 text-sm font-medium text-ink-soft transition-colors duration-200 hover:bg-brand-50 hover:text-brand-600"
             >

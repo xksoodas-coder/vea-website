@@ -23,6 +23,7 @@ import {
   deleteProductRecord,
   getProductById,
   getProductBySlug,
+  getProducts,
   saveProductRecord,
 } from "@/lib/products";
 import {
@@ -30,6 +31,11 @@ import {
   getBannerById,
   saveBannerRecord,
 } from "@/lib/banners";
+import {
+  deleteCategoryRecord,
+  getCategoryById,
+  saveCategoryRecord,
+} from "@/lib/categories";
 import { deleteUploadedImage, saveUploadedImage } from "@/lib/uploads";
 
 export type ActionState = { error?: string; ok?: boolean };
@@ -289,4 +295,84 @@ export async function deleteBanner(formData: FormData): Promise<void> {
   }
 
   redirect("/admin/banners");
+}
+
+/* -------------------------------------------------------------------------- */
+/* Categories                                                                 */
+/* -------------------------------------------------------------------------- */
+
+function revalidateCategories() {
+  for (const locale of locales) {
+    revalidatePath(`/${locale}`);
+    revalidatePath(`/${locale}/products`);
+  }
+}
+
+export async function saveCategory(
+  _prev: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  await requireAdmin();
+
+  const existingId = String(formData.get("id") ?? "").trim();
+  const existing = existingId ? await getCategoryById(existingId) : undefined;
+  const label = readLocalized(formData, "label");
+  const primaryLabel = label.fr || label.ar || label.en;
+  if (!primaryLabel) {
+    return { error: "أدخل اسم الفئة بلغة واحدة على الأقل." };
+  }
+
+  const requestedId = String(formData.get("categoryId") ?? "").trim();
+  const id = existing?.id ?? slugify(requestedId || primaryLabel).replace(/^produit-/, "category-");
+
+  if (!existing && (await getCategoryById(id))) {
+    return { error: "هذا المعرّف مستخدم لفئة أخرى. غيّره أو اتركه فارغاً." };
+  }
+
+  let image = existing?.image ?? null;
+  const upload = formFile(formData, "image");
+  if (upload) {
+    const result = await saveUploadedImage(upload, "categories");
+    if (!result.ok) {
+      return {
+        error:
+          result.reason === "storage-error"
+            ? "تعذر رفع الصورة إلى Cloudflare R2. تحقق من متغيرات R2 في Vercel."
+            : "الصورة يجب أن تكون JPG أو PNG أو WebP أو AVIF وبحد أقصى 5 ميغابايت.",
+      };
+    }
+    image = result.url;
+  }
+
+  await saveCategoryRecord({ id, label, image });
+  if (existing?.image && existing.image !== image) {
+    await deleteUploadedImage(existing.image);
+  }
+
+  revalidateCategories();
+  redirect("/admin/categories");
+}
+
+export async function deleteCategory(formData: FormData): Promise<void> {
+  await requireAdmin();
+
+  const id = String(formData.get("id") ?? "");
+  const category = await getCategoryById(id);
+  if (category) {
+    // Keep existing products valid when a category is removed.
+    const products = await getProducts();
+    for (const product of products) {
+      if (!product.categoryIds.includes(id)) continue;
+      await saveProductRecord({
+        ...product,
+        categoryIds: product.categoryIds.filter((categoryId) => categoryId !== id),
+      });
+    }
+
+    await deleteCategoryRecord(id);
+    if (category.image) await deleteUploadedImage(category.image);
+    revalidateCategories();
+  }
+
+  redirect("/admin/categories");
 }

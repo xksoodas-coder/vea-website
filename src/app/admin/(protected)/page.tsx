@@ -30,9 +30,14 @@ export default async function AdminHome() {
         </Link>
       </div>
 
-      <Link href="/admin/banners" className="mb-6 inline-flex rounded-lg border border-line bg-white px-4 py-2.5 text-sm font-semibold text-brand-600 transition-colors hover:border-brand-200 hover:bg-brand-50">
+      <div className="mb-6 flex flex-wrap gap-3">
+      <Link href="/admin/categories" className="inline-flex rounded-lg border border-line bg-white px-4 py-2.5 text-sm font-semibold text-brand-600 transition-colors hover:border-brand-200 hover:bg-brand-50">
+        إدارة الفئات
+      </Link>
+      <Link href="/admin/banners" className="inline-flex rounded-lg border border-line bg-white px-4 py-2.5 text-sm font-semibold text-brand-600 transition-colors hover:border-brand-200 hover:bg-brand-50">
         إدارة الإعلانات وصور الهاتف والحاسوب
       </Link>
+      </div>
 
       {products.length === 0 ? (
         <p className="rounded-card border border-dashed border-line bg-white py-16 text-center text-ink-soft">

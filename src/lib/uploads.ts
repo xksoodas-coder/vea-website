@@ -104,7 +104,7 @@ export type UploadResult =
  */
 export async function saveUploadedImage(
   file: File,
-  folder: "products" | "banners" = "products",
+  folder: "products" | "banners" | "categories" = "products",
 ): Promise<UploadResult> {
   if (!file || file.size === 0) return { ok: false, reason: "empty" };
   if (file.size > MAX_UPLOAD_BYTES) return { ok: false, reason: "too-large" };
@@ -131,10 +131,10 @@ export async function saveUploadedImage(
   }
 }
 
-/** Deletes only product images stored in this project's Cloudflare R2 bucket. */
+/** Deletes only images stored in this project's Cloudflare R2 bucket. */
 export async function deleteUploadedImage(url: string): Promise<void> {
   const key = keyForPublicUrl(url);
-  if (!key || !/^(products|banners)\//.test(key)) return;
+  if (!key || !/^(products|banners|categories)\//.test(key)) return;
 
   const { bucket } = getR2Config();
   await getR2().send(new DeleteObjectCommand({ Bucket: bucket, Key: key }));
