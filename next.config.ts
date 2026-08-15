@@ -42,6 +42,14 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  // Image uploads are limited to 5MB in the server code. Allow multipart
+  // overhead so valid files are not rejected by Server Actions' 1MB default.
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "6mb",
+    },
+  },
+
   images: {
     /**
      * The placeholder banners/products are SVGs we author ourselves. The

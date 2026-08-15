@@ -96,7 +96,7 @@ function sniff(bytes: Uint8Array): Sniffed | null {
 
 export type UploadResult =
   | { ok: true; url: string }
-  | { ok: false; reason: "too-large" | "bad-type" | "empty" };
+  | { ok: false; reason: "too-large" | "bad-type" | "empty" | "storage-error" };
 
 /**
  * Stores an uploaded image in Cloudflare R2. The original filename is never
@@ -113,17 +113,22 @@ export async function saveUploadedImage(
   const kind = sniff(bytes);
   if (!kind) return { ok: false, reason: "bad-type" };
 
-  const key = `${folder}/${crypto.randomUUID()}.${kind.ext}`;
-  const { bucket } = getR2Config();
-  await getR2().send(new PutObjectCommand({
-    Bucket: bucket,
-    Key: key,
-    Body: Buffer.from(bytes),
-    ContentType: kind.mime,
-    CacheControl: "public, max-age=31536000, immutable",
-  }));
+  try {
+    const key = `${folder}/${crypto.randomUUID()}.${kind.ext}`;
+    const { bucket } = getR2Config();
+    await getR2().send(new PutObjectCommand({
+      Bucket: bucket,
+      Key: key,
+      Body: Buffer.from(bytes),
+      ContentType: kind.mime,
+      CacheControl: "public, max-age=31536000, immutable",
+    }));
 
-  return { ok: true, url: publicUrlFor(key) };
+    return { ok: true, url: publicUrlFor(key) };
+  } catch (error) {
+    console.error("Cloudflare R2 image upload failed", error);
+    return { ok: false, reason: "storage-error" };
+  }
 }
 
 /** Deletes only product images stored in this project's Cloudflare R2 bucket. */

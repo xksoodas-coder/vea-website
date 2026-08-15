@@ -135,6 +135,11 @@ export async function saveProduct(
   for (const file of uploads) {
     const result = await saveUploadedImage(file);
     if (!result.ok) {
+      if (result.reason === "storage-error") {
+        return {
+          error: "تعذر رفع الصورة إلى Cloudflare R2. تحقق من متغيرات R2 في Vercel ثم أعد المحاولة.",
+        };
+      }
       return {
         error:
           result.reason === "too-large"
