@@ -24,7 +24,7 @@ const securityHeaders = [
     key: "Content-Security-Policy",
     value: [
       "default-src 'self'",
-      "img-src 'self' data: blob: https://*.google.com https://*.gstatic.com https://*.googleapis.com https://*.public.blob.vercel-storage.com",
+      "img-src 'self' data: blob: https://*.google.com https://*.gstatic.com https://*.googleapis.com https://images.xn--va-bja.net",
       // Next injects inline bootstrap scripts and Tailwind emits inline styles.
       "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
       "style-src 'self' 'unsafe-inline'",
@@ -56,7 +56,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "*.public.blob.vercel-storage.com",
+        hostname: "images.xn--va-bja.net",
       },
     ],
   },

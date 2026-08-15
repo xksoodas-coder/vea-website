@@ -1,9 +1,65 @@
 import "server-only";
 
-import { del, put } from "@vercel/blob";
+import {
+  DeleteObjectCommand,
+  PutObjectCommand,
+  S3Client,
+} from "@aws-sdk/client-s3";
 import { Buffer } from "node:buffer";
 
 export const MAX_UPLOAD_BYTES = 5 * 1024 * 1024; // 5 MB
+
+type R2Config = {
+  bucket: string;
+  publicBaseUrl: URL;
+};
+
+let r2: S3Client | undefined;
+let r2Config: R2Config | undefined;
+
+function getR2Config(): R2Config {
+  if (r2Config) return r2Config;
+
+  const endpoint = process.env.R2_ENDPOINT;
+  const accessKeyId = process.env.R2_ACCESS_KEY_ID;
+  const secretAccessKey = process.env.R2_SECRET_ACCESS_KEY;
+  const bucket = process.env.R2_BUCKET_NAME;
+  const publicBaseUrl = process.env.R2_PUBLIC_BASE_URL;
+
+  if (!endpoint || !accessKeyId || !secretAccessKey || !bucket || !publicBaseUrl) {
+    throw new Error(
+      "R2 is not configured. Set R2_ENDPOINT, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET_NAME, and R2_PUBLIC_BASE_URL.",
+    );
+  }
+
+  r2 = new S3Client({
+    region: "auto",
+    endpoint,
+    credentials: { accessKeyId, secretAccessKey },
+  });
+  r2Config = { bucket, publicBaseUrl: new URL(publicBaseUrl) };
+  return r2Config;
+}
+
+function getR2(): S3Client {
+  getR2Config();
+  return r2!;
+}
+
+function publicUrlFor(key: string): string {
+  const base = getR2Config().publicBaseUrl;
+  return new URL(key, `${base.href.replace(/\/+$/, "")}/`).href;
+}
+
+function keyForPublicUrl(url: string): string | undefined {
+  const base = getR2Config().publicBaseUrl;
+  const target = new URL(url);
+  if (target.origin !== base.origin) return undefined;
+
+  const prefix = base.pathname.replace(/\/+$/, "");
+  if (!target.pathname.startsWith(`${prefix}/`)) return undefined;
+  return decodeURIComponent(target.pathname.slice(prefix.length + 1));
+}
 
 type Sniffed = { ext: string; mime: string };
 
@@ -43,7 +99,7 @@ export type UploadResult =
   | { ok: false; reason: "too-large" | "bad-type" | "empty" };
 
 /**
- * Stores an uploaded image in Vercel Blob. The original filename is never
+ * Stores an uploaded image in Cloudflare R2. The original filename is never
  * used, which removes path traversal and extension-spoofing from the path.
  */
 export async function saveUploadedImage(file: File): Promise<UploadResult> {
@@ -54,19 +110,24 @@ export async function saveUploadedImage(file: File): Promise<UploadResult> {
   const kind = sniff(bytes);
   if (!kind) return { ok: false, reason: "bad-type" };
 
-  const blob = await put(`products/${crypto.randomUUID()}.${kind.ext}`, Buffer.from(bytes), {
-    access: "public",
-    addRandomSuffix: false,
-    contentType: kind.mime,
-  });
+  const key = `products/${crypto.randomUUID()}.${kind.ext}`;
+  const { bucket } = getR2Config();
+  await getR2().send(new PutObjectCommand({
+    Bucket: bucket,
+    Key: key,
+    Body: Buffer.from(bytes),
+    ContentType: kind.mime,
+    CacheControl: "public, max-age=31536000, immutable",
+  }));
 
-  return { ok: true, url: blob.url };
+  return { ok: true, url: publicUrlFor(key) };
 }
 
-/** Deletes only product images stored in this project's Vercel Blob store. */
+/** Deletes only product images stored in this project's Cloudflare R2 bucket. */
 export async function deleteUploadedImage(url: string): Promise<void> {
-  if (!/^https:\/\/.+\.public\.blob\.vercel-storage\.com\/products\//.test(url)) {
-    return;
-  }
-  await del(url);
+  const key = keyForPublicUrl(url);
+  if (!key?.startsWith("products/")) return;
+
+  const { bucket } = getR2Config();
+  await getR2().send(new DeleteObjectCommand({ Bucket: bucket, Key: key }));
 }
