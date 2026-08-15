@@ -30,6 +30,10 @@ export default async function AdminHome() {
         </Link>
       </div>
 
+      <Link href="/admin/banners" className="mb-6 inline-flex rounded-lg border border-line bg-white px-4 py-2.5 text-sm font-semibold text-brand-600 transition-colors hover:border-brand-200 hover:bg-brand-50">
+        إدارة الإعلانات وصور الهاتف والحاسوب
+      </Link>
+
       {products.length === 0 ? (
         <p className="rounded-card border border-dashed border-line bg-white py-16 text-center text-ink-soft">
           لا توجد منتجات بعد. ابدأ بإضافة منتج.

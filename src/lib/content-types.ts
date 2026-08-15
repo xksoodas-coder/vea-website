@@ -5,11 +5,14 @@ export type LocalizedText = Record<Locale, string>;
 
 export type StoredBanner = {
   id: string;
-  /** Path under /public, or null to show the gray placeholder. */
-  image: string | null;
+  /** Landscape image for computers and tablets. */
+  desktopImage: string;
+  /** Portrait image for phones. Falls back to desktopImage when omitted. */
+  mobileImage: string | null;
   alt: LocalizedText;
   /** In-page anchor or URL the banner links to. Empty means not clickable. */
   href: string;
+  sortOrder: number;
 };
 
 export type StoredCategory = {

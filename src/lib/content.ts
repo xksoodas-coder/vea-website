@@ -5,6 +5,7 @@ import path from "node:path";
 import { connection } from "next/server";
 
 import type { Content, StoredProduct } from "./content-types";
+import { getBanners } from "./banners";
 import { getProductBySlug as findProductBySlug, getProducts } from "./products";
 
 const CONTENT_FILE = path.join(process.cwd(), "data", "content.json");
@@ -12,8 +13,8 @@ const CONTENT_FILE = path.join(process.cwd(), "data", "content.json");
 const EMPTY: Content = { banners: [], categories: [], products: [] };
 
 /**
- * Banners and categories are static site configuration. Products are always
- * read from Turso so dashboard changes are available to every Vercel instance.
+ * Categories are static site configuration. Banners and products are read from
+ * Turso so dashboard changes are available to every Vercel instance.
  */
 export async function getContent(): Promise<Content> {
   // Product data is request-time data. This keeps database credentials out of
@@ -24,7 +25,7 @@ export async function getContent(): Promise<Content> {
     const raw = await fs.readFile(CONTENT_FILE, "utf8");
     const parsed = JSON.parse(raw) as Partial<Content>;
     return {
-      banners: parsed.banners ?? [],
+      banners: await getBanners(),
       categories: parsed.categories ?? [],
       products: await getProducts(),
     };

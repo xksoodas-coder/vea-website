@@ -25,6 +25,11 @@ import {
   getProductBySlug,
   saveProductRecord,
 } from "@/lib/products";
+import {
+  deleteBannerRecord,
+  getBannerById,
+  saveBannerRecord,
+} from "@/lib/banners";
 import { deleteUploadedImage, saveUploadedImage } from "@/lib/uploads";
 
 export type ActionState = { error?: string; ok?: boolean };
@@ -199,4 +204,84 @@ export async function deleteProduct(formData: FormData): Promise<void> {
   }
 
   redirect("/admin");
+}
+
+/* -------------------------------------------------------------------------- */
+/* Banners                                                                    */
+/* -------------------------------------------------------------------------- */
+
+function revalidateBanners() {
+  for (const locale of locales) revalidatePath(`/${locale}`);
+}
+
+function formFile(formData: FormData, field: string): File | undefined {
+  const value = formData.get(field);
+  return value instanceof File && value.size > 0 ? value : undefined;
+}
+
+export async function saveBanner(
+  _prev: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  await requireAdmin();
+
+  const id = String(formData.get("id") ?? "").trim();
+  const existing = id ? await getBannerById(id) : undefined;
+  const desktopUpload = formFile(formData, "desktopImage");
+  const mobileUpload = formFile(formData, "mobileImage");
+
+  let desktopImage = existing?.desktopImage ?? "";
+  let mobileImage = existing?.mobileImage ?? null;
+
+  if (desktopUpload) {
+    const result = await saveUploadedImage(desktopUpload, "banners");
+    if (!result.ok) return { error: "صورة الحاسوب يجب أن تكون JPG أو PNG أو WebP أو AVIF وبحد أقصى 5 ميغابايت." };
+    desktopImage = result.url;
+  }
+
+  if (!desktopImage) return { error: "أضف صورة إعلان للحاسوب أولًا." };
+
+  if (mobileUpload) {
+    const result = await saveUploadedImage(mobileUpload, "banners");
+    if (!result.ok) return { error: "صورة الهاتف يجب أن تكون JPG أو PNG أو WebP أو AVIF وبحد أقصى 5 ميغابايت." };
+    mobileImage = result.url;
+  }
+
+  const banner = {
+    id: existing?.id ?? `b-${Date.now().toString(36)}`,
+    desktopImage,
+    mobileImage,
+    alt: readLocalized(formData, "alt"),
+    href: String(formData.get("href") ?? "").trim(),
+    sortOrder: existing?.sortOrder ?? Date.now(),
+  };
+
+  await saveBannerRecord(banner);
+
+  if (existing?.desktopImage && existing.desktopImage !== desktopImage) {
+    await deleteUploadedImage(existing.desktopImage);
+  }
+  if (existing?.mobileImage && existing.mobileImage !== mobileImage) {
+    await deleteUploadedImage(existing.mobileImage);
+  }
+
+  revalidateBanners();
+  redirect("/admin/banners");
+}
+
+export async function deleteBanner(formData: FormData): Promise<void> {
+  await requireAdmin();
+
+  const id = String(formData.get("id") ?? "");
+  const banner = await getBannerById(id);
+  if (banner) {
+    await deleteBannerRecord(id);
+    await deleteUploadedImage(banner.desktopImage);
+    if (banner.mobileImage && banner.mobileImage !== banner.desktopImage) {
+      await deleteUploadedImage(banner.mobileImage);
+    }
+    revalidateBanners();
+  }
+
+  redirect("/admin/banners");
 }

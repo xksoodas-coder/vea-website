@@ -102,7 +102,10 @@ export type UploadResult =
  * Stores an uploaded image in Cloudflare R2. The original filename is never
  * used, which removes path traversal and extension-spoofing from the path.
  */
-export async function saveUploadedImage(file: File): Promise<UploadResult> {
+export async function saveUploadedImage(
+  file: File,
+  folder: "products" | "banners" = "products",
+): Promise<UploadResult> {
   if (!file || file.size === 0) return { ok: false, reason: "empty" };
   if (file.size > MAX_UPLOAD_BYTES) return { ok: false, reason: "too-large" };
 
@@ -110,7 +113,7 @@ export async function saveUploadedImage(file: File): Promise<UploadResult> {
   const kind = sniff(bytes);
   if (!kind) return { ok: false, reason: "bad-type" };
 
-  const key = `products/${crypto.randomUUID()}.${kind.ext}`;
+  const key = `${folder}/${crypto.randomUUID()}.${kind.ext}`;
   const { bucket } = getR2Config();
   await getR2().send(new PutObjectCommand({
     Bucket: bucket,
@@ -126,7 +129,7 @@ export async function saveUploadedImage(file: File): Promise<UploadResult> {
 /** Deletes only product images stored in this project's Cloudflare R2 bucket. */
 export async function deleteUploadedImage(url: string): Promise<void> {
   const key = keyForPublicUrl(url);
-  if (!key?.startsWith("products/")) return;
+  if (!key || !/^(products|banners)\//.test(key)) return;
 
   const { bucket } = getR2Config();
   await getR2().send(new DeleteObjectCommand({ Bucket: bucket, Key: key }));

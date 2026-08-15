@@ -12,7 +12,8 @@ export const PLACEHOLDER_IMAGE = "/images/placeholder.svg";
 
 export type SlideView = {
   id: string;
-  image: string;
+  desktopImage: string;
+  mobileImage: string;
   alt: string;
   href: string;
 };
@@ -43,7 +44,8 @@ export type ProductView = {
 export function toSlideViews(content: Content, locale: Locale): SlideView[] {
   return content.banners.map((b) => ({
     id: b.id,
-    image: b.image || PLACEHOLDER_IMAGE,
+    desktopImage: b.desktopImage || PLACEHOLDER_IMAGE,
+    mobileImage: b.mobileImage || b.desktopImage || PLACEHOLDER_IMAGE,
     alt: pick(b.alt, locale),
     href: b.href,
   }));

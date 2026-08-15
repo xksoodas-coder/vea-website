@@ -98,13 +98,25 @@ export default function HeroCarousel({
               className="block size-full"
             >
               <Image
-                src={slide.image}
+                src={slide.desktopImage}
                 alt={slide.alt}
                 fill
                 priority={i === 0}
                 loading={i === 0 ? undefined : "lazy"}
                 sizes="100vw"
-                className={`object-cover transition-transform duration-[1200ms] ease-out ${
+                className={`hidden object-cover transition-transform duration-[1200ms] ease-out md:block ${
+                  isActive ? "scale-100" : "scale-[1.04]"
+                }`}
+              />
+              <Image
+                src={slide.mobileImage}
+                alt=""
+                aria-hidden="true"
+                fill
+                priority={i === 0}
+                loading={i === 0 ? undefined : "lazy"}
+                sizes="100vw"
+                className={`object-cover transition-transform duration-[1200ms] ease-out md:hidden ${
                   isActive ? "scale-100" : "scale-[1.04]"
                 }`}
               />

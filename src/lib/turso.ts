@@ -45,6 +45,23 @@ async function ensureSchema(db: Client): Promise<void> {
           {
             sql: "CREATE INDEX IF NOT EXISTS products_slug_idx ON products(slug)",
           },
+          {
+            sql: `
+              CREATE TABLE IF NOT EXISTS banners (
+                id TEXT PRIMARY KEY NOT NULL,
+                desktop_image TEXT NOT NULL,
+                mobile_image TEXT,
+                alt_json TEXT NOT NULL,
+                href TEXT NOT NULL DEFAULT '',
+                sort_order INTEGER NOT NULL DEFAULT 0,
+                created_at INTEGER NOT NULL DEFAULT (unixepoch()),
+                updated_at INTEGER NOT NULL DEFAULT (unixepoch())
+              )
+            `,
+          },
+          {
+            sql: "CREATE INDEX IF NOT EXISTS banners_sort_idx ON banners(sort_order, id)",
+          },
         ],
         "write",
       )
