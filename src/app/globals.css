@@ -1,26 +1,187 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ==========================================================================
+   Véa — design tokens
+   Brand: deep navy (the véa wordmark) with light violet accents.
+   ========================================================================== */
+
+@theme {
+  /* --- Brand: deep blue (hue ~221°, kept off the violet side) ---------- */
+  --color-brand-50: #eef3fc;
+  --color-brand-100: #d8e3f7;
+  --color-brand-200: #afc5ee;
+  --color-brand-300: #7ba0df;
+  --color-brand-400: #4372c6;
+  --color-brand-500: #22499f;
+  --color-brand-600: #14357f; /* primary — 11.4:1 on white */
+  --color-brand-700: #0f2a69;
+  --color-brand-800: #0b2054;
+  --color-brand-900: #08183f;
+  --color-brand-950: #040d22;
+
+  /* --- Violet: light touches only, never a surface --------------------- */
+  --color-violet-200: #d8ccf7;
+  --color-violet-300: #b9a5ee;
+  --color-violet-400: #9a80e2;
+
+  /* --- Neutrals -------------------------------------------------------- */
+  --color-ink: #101733; /* 16.2:1 on white */
+  --color-ink-soft: #565d7a; /* 7.0:1 on white  */
+  --color-ink-faint: #878da6; /* decorative / large text only */
+  --color-line: #e5e8f1;
+  --color-surface: #ffffff;
+  --color-surface-2: #f4f5f8; /* product image plate */
+
+  /* --- Type ------------------------------------------------------------ */
+  --font-sans: var(--font-arabic), ui-sans-serif, system-ui, "Segoe UI", sans-serif;
+
+  /* --- Radii ----------------------------------------------------------- */
+  --radius-card: 1.125rem;
+
+  /* --- Shadows: blue-tinted, never pure black --------------------------- */
+  --shadow-soft: 0 1px 2px rgb(16 23 51 / 0.04), 0 8px 24px -12px rgb(16 23 51 / 0.12);
+  --shadow-lift: 0 2px 4px rgb(16 23 51 / 0.05), 0 18px 40px -18px rgb(29 46 146 / 0.26);
+  --shadow-arrow: 0 6px 20px -6px rgb(6 12 43 / 0.35);
+
+  /* --- Easing ---------------------------------------------------------- */
+  --ease-out-soft: cubic-bezier(0.22, 0.8, 0.3, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* ==========================================================================
+   Base
+   ========================================================================== */
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem; /* clears the sticky header on anchor jumps */
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-surface);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.7;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+
+  /* One consistent, always-visible keyboard focus ring. */
+  :focus-visible {
+    outline: 2px solid var(--color-brand-600);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background-color: var(--color-brand-600);
+    color: #fff;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ==========================================================================
+   Utilities
+   ========================================================================== */
+
+@utility container-page {
+  width: 100%;
+  max-width: 80rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+
+  @media (width >= 768px) {
+    padding-inline: 2rem;
+  }
+}
+
+/**
+ * Frosted glass — carousel arrows, map controls.
+ * Tinted with the deep navy rather than white: white glass disappears over
+ * light banner artwork, this stays legible over anything.
+ */
+@utility glass-btn {
+  background-color: rgb(13 16 44 / 0.3);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid rgb(255 255 255 / 0.35);
+  box-shadow: 0 4px 22px -6px rgb(13 16 44 / 0.45);
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==========================================================================
+   Keyframes
+   ========================================================================== */
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ==========================================================================
+   Scroll reveal (driven by IntersectionObserver in <RevealObserver />)
+   ========================================================================== */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.5s var(--ease-out-soft),
+    transform 0.5s var(--ease-out-soft);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal[data-visible="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+/* ==========================================================================
+   Reduced motion
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
 }
