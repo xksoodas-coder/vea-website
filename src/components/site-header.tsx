@@ -25,6 +25,7 @@ export default function SiteHeader({ locale, dict }: Props) {
   const home = `/${locale}`;
   const isHome = pathname === home;
   const onProducts = pathname.startsWith(`${home}/products`);
+  const onAbout = pathname.startsWith(`${home}/about`);
 
   /*
     On the homepage the first and last items are in-page anchors so they
@@ -42,6 +43,12 @@ export default function SiteHeader({ locale, dict }: Props) {
       label: dict.nav.products,
       href: `${home}/products`,
       active: onProducts,
+    },
+    {
+      key: "about",
+      label: dict.nav.about,
+      href: `${home}/about`,
+      active: onAbout,
     },
     {
       key: "contact",
@@ -118,7 +125,7 @@ export default function SiteHeader({ locale, dict }: Props) {
                 width={site.logo.width}
                 height={site.logo.height}
                 priority
-                className="h-9 w-auto"
+                className="h-11 w-auto md:h-12"
               />
             </Link>
 

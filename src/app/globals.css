@@ -19,6 +19,10 @@
   --color-brand-900: #08183f;
   --color-brand-950: #040d22;
 
+  /* --- Accent: the pink of the véa petals and the INTIME sub-line ------ */
+  --color-accent: #ee4e88;
+  --color-accent-soft: #f7739f;
+
   /* --- Violet: light touches only, never a surface --------------------- */
   --color-violet-200: #d8ccf7;
   --color-violet-300: #b9a5ee;

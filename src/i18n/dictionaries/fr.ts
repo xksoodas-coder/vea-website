@@ -16,6 +16,7 @@ const fr = {
   nav: {
     home: "Accueil",
     products: "Nos produits",
+    about: "Notre société",
     contact: "Contact",
   },
 
@@ -59,6 +60,22 @@ const fr = {
     volume: "Contenance",
     back: "Retour aux produits",
     notFound: "Produit introuvable",
+  },
+
+  about: {
+    title: "Notre société",
+    subtitle:
+      "Qui nous sommes, ce qui nous guide, et les femmes et les hommes derrière la marque véa.",
+    story: "Notre histoire",
+    mission: "Notre mission",
+    vision: "Notre vision",
+    values: "Nos valeurs",
+    team: "Notre équipe",
+    teamSubtitle: "Les personnes qui font vivre nos laboratoires au quotidien.",
+    gallery: "En images",
+    gallerySubtitle: "Nos locaux, nos ateliers et nos moments forts.",
+    empty:
+      "Le contenu de cette page sera publié prochainement.",
   },
 
   footer: {

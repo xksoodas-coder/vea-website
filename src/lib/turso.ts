@@ -76,6 +76,57 @@ async function ensureSchema(db: Client): Promise<void> {
           {
             sql: "CREATE INDEX IF NOT EXISTS categories_created_idx ON categories(created_at, id)",
           },
+          {
+            // Singleton: exactly one row, keyed 'main'. The whole profile is
+            // one JSON blob because its shape (stats, values) is a list the
+            // admin grows freely, not a fixed set of columns.
+            sql: `
+              CREATE TABLE IF NOT EXISTS company_profile (
+                id TEXT PRIMARY KEY NOT NULL,
+                data_json TEXT NOT NULL,
+                updated_at INTEGER NOT NULL DEFAULT (unixepoch())
+              )
+            `,
+          },
+          {
+            sql: `
+              CREATE TABLE IF NOT EXISTS team_members (
+                id TEXT PRIMARY KEY NOT NULL,
+                name_json TEXT NOT NULL,
+                role_json TEXT NOT NULL,
+                bio_json TEXT NOT NULL,
+                photo TEXT,
+                email TEXT NOT NULL DEFAULT '',
+                phone TEXT NOT NULL DEFAULT '',
+                linkedin TEXT NOT NULL DEFAULT '',
+                details_json TEXT NOT NULL DEFAULT '[]',
+                sort_order INTEGER NOT NULL DEFAULT 0,
+                visible INTEGER NOT NULL DEFAULT 1,
+                created_at INTEGER NOT NULL DEFAULT (unixepoch()),
+                updated_at INTEGER NOT NULL DEFAULT (unixepoch())
+              )
+            `,
+          },
+          {
+            sql: "CREATE INDEX IF NOT EXISTS team_members_sort_idx ON team_members(sort_order, id)",
+          },
+          {
+            sql: `
+              CREATE TABLE IF NOT EXISTS company_gallery (
+                id TEXT PRIMARY KEY NOT NULL,
+                image TEXT NOT NULL,
+                title_json TEXT NOT NULL,
+                description_json TEXT NOT NULL,
+                sort_order INTEGER NOT NULL DEFAULT 0,
+                visible INTEGER NOT NULL DEFAULT 1,
+                created_at INTEGER NOT NULL DEFAULT (unixepoch()),
+                updated_at INTEGER NOT NULL DEFAULT (unixepoch())
+              )
+            `,
+          },
+          {
+            sql: "CREATE INDEX IF NOT EXISTS company_gallery_sort_idx ON company_gallery(sort_order, id)",
+          },
         ],
         "write",
       )
@@ -89,7 +140,7 @@ async function ensureSchema(db: Client): Promise<void> {
   await schemaPromise;
 }
 
-/** Returns a connected client and creates the product table on its first use. */
+/** Returns a connected client and creates the tables on its first use. */
 export async function getDatabase(): Promise<Client> {
   const db = getClient();
   await ensureSchema(db);

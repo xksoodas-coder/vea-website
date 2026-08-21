@@ -46,6 +46,12 @@ export default async function ProtectedLayout({
               الإعلانات
             </Link>
             <Link
+              href="/admin/company"
+              className="rounded-lg px-3 py-2 text-sm font-medium text-ink-soft transition-colors duration-200 hover:bg-brand-50 hover:text-brand-600"
+            >
+              عن شركتنا
+            </Link>
+            <Link
               href={`/${defaultLocale}`}
               target="_blank"
               rel="noopener noreferrer"

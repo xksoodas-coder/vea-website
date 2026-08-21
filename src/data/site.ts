@@ -14,15 +14,16 @@ export const site = {
   brand: "Véa",
 
   /**
-   * Logo slot. Drop your icon at `public/images/brand/logo.svg` (or .png) and
-   * it appears everywhere. Until then a neutral placeholder is shown.
+   * Logo slot. `logo.svg` is drawn on white, `logo-light.svg` on the navy
+   * footer. Swap both files to change the mark everywhere — nothing else
+   * needs editing as long as the aspect ratio below stays in step.
    */
   logo: {
     src: "/images/brand/logo.svg",
     srcLight: "/images/brand/logo-light.svg",
-    width: 120,
-    height: 36,
-    alt: "véa",
+    width: 232,
+    height: 152,
+    alt: "véa intime",
   },
 
   contact: {

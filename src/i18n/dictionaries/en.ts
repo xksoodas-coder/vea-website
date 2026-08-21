@@ -10,6 +10,7 @@ const en: Dictionary = {
   nav: {
     home: "Home",
     products: "Our products",
+    about: "Our company",
     contact: "Contact",
   },
 
@@ -53,6 +54,21 @@ const en: Dictionary = {
     volume: "Size",
     back: "Back to products",
     notFound: "Product not found",
+  },
+
+  about: {
+    title: "Our company",
+    subtitle:
+      "Who we are, what guides us, and the people behind the véa brand.",
+    story: "Our story",
+    mission: "Our mission",
+    vision: "Our vision",
+    values: "Our values",
+    team: "Our team",
+    teamSubtitle: "The people who run our laboratories day to day.",
+    gallery: "In pictures",
+    gallerySubtitle: "Our premises, our workshops and our milestones.",
+    empty: "The content of this page will be published shortly.",
   },
 
   footer: {

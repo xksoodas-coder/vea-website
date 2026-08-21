@@ -16,8 +16,11 @@ import {
 } from "@/lib/auth";
 import {
   emptyLocalizedText,
+  type CompanyProfile,
   type LocalizedText,
+  type StoredGalleryItem,
   type StoredProduct,
+  type StoredTeamMember,
 } from "@/lib/content-types";
 import {
   deleteProductRecord,
@@ -36,6 +39,17 @@ import {
   getCategoryById,
   saveCategoryRecord,
 } from "@/lib/categories";
+import { saveCompanyProfile } from "@/lib/company";
+import {
+  deleteTeamMemberRecord,
+  getTeamMemberById,
+  saveTeamMemberRecord,
+} from "@/lib/team";
+import {
+  deleteGalleryItemRecord,
+  getGalleryItemById,
+  saveGalleryItemRecord,
+} from "@/lib/gallery";
 import { deleteUploadedImage, saveUploadedImage } from "@/lib/uploads";
 
 export type ActionState = { error?: string; ok?: boolean };
@@ -375,4 +389,248 @@ export async function deleteCategory(formData: FormData): Promise<void> {
   }
 
   redirect("/admin/categories");
+}
+
+/* -------------------------------------------------------------------------- */
+/* Company profile, team and gallery — the About page                         */
+/* -------------------------------------------------------------------------- */
+
+function revalidateAbout() {
+  for (const locale of locales) revalidatePath(`/${locale}/about`);
+}
+
+/**
+ * Reads a repeated group of localized inputs into rows. Every row renders one
+ * input per language, so `getAll` returns aligned, gap-free columns no matter
+ * which rows the admin added or removed before submitting.
+ */
+function readLocalizedRows(formData: FormData, field: string): LocalizedText[] {
+  const columns = locales.map((locale) =>
+    formData.getAll(`${field}.${locale}`).map((entry) => String(entry).trim()),
+  );
+  const rowCount = Math.max(0, ...columns.map((column) => column.length));
+
+  return Array.from({ length: rowCount }, (_, row) => {
+    const text = emptyLocalizedText();
+    locales.forEach((locale, column) => {
+      text[locale] = columns[column][row] ?? "";
+    });
+    return text;
+  });
+}
+
+const trimmed = (formData: FormData, field: string): string =>
+  String(formData.get(field) ?? "").trim();
+
+/** Empty or non-numeric input sorts to 0, which lets created_at break the tie. */
+function readSortOrder(formData: FormData): number {
+  const raw = trimmed(formData, "sortOrder");
+  const parsed = Number(raw);
+  return raw !== "" && Number.isFinite(parsed) ? Math.trunc(parsed) : 0;
+}
+
+function uploadErrorMessage(reason: string): string {
+  if (reason === "storage-error") {
+    return "تعذر رفع الصورة إلى Cloudflare R2. تحقق من متغيرات R2 في Vercel.";
+  }
+  return reason === "too-large"
+    ? "حجم الصورة يتجاوز 5 ميغابايت."
+    : "صيغة الصورة غير مدعومة. استعمل JPG أو PNG أو WebP أو AVIF.";
+}
+
+/* ------------------------------- Profile ---------------------------------- */
+
+export async function saveCompany(
+  _prev: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  await requireAdmin();
+
+  const statValues = formData.getAll("stat.value").map((v) => String(v).trim());
+  const statLabels = readLocalizedRows(formData, "stat.label");
+
+  const valueTitles = readLocalizedRows(formData, "value.title");
+  const valueDescriptions = readLocalizedRows(formData, "value.description");
+
+  const profile: CompanyProfile = {
+    headline: readLocalized(formData, "headline"),
+    intro: readLocalized(formData, "intro"),
+    story: readLocalized(formData, "story"),
+    mission: readLocalized(formData, "mission"),
+    vision: readLocalized(formData, "vision"),
+    // Rows left completely blank are dropped rather than stored.
+    stats: statLabels
+      .map((label, index) => ({ value: statValues[index] ?? "", label }))
+      .filter((stat) => stat.value || locales.some((l) => stat.label[l])),
+    values: valueTitles
+      .map((title, index) => ({
+        title,
+        description: valueDescriptions[index] ?? emptyLocalizedText(),
+      }))
+      .filter((value) => locales.some((l) => value.title[l] || value.description[l])),
+  };
+
+  await saveCompanyProfile(profile);
+  revalidateAbout();
+
+  redirect("/admin/company");
+}
+
+/* -------------------------------- Team ------------------------------------ */
+
+export async function saveTeamMember(
+  _prev: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  await requireAdmin();
+
+  const id = trimmed(formData, "id");
+  const existing = id ? await getTeamMemberById(id) : undefined;
+
+  const name = readLocalized(formData, "name");
+  if (!locales.some((l) => name[l])) {
+    return { error: "أدخل اسم الموظف بلغة واحدة على الأقل." };
+  }
+
+  /* --- photo: replace, keep, or clear ----------------------------------- */
+  let photo = existing?.photo ?? null;
+  const removePhoto = formData.get("removePhoto") === "on";
+  const upload = formFile(formData, "photo");
+
+  if (upload) {
+    const result = await saveUploadedImage(upload, "team");
+    if (!result.ok) return { error: uploadErrorMessage(result.reason) };
+    photo = result.url;
+  } else if (removePhoto) {
+    photo = null;
+  }
+
+  /* --- optional extra facts --------------------------------------------- */
+  const detailLabels = readLocalizedRows(formData, "detail.label");
+  const detailValues = readLocalizedRows(formData, "detail.value");
+  const details = detailLabels
+    .map((label, index) => ({
+      label,
+      value: detailValues[index] ?? emptyLocalizedText(),
+    }))
+    .filter((detail) => locales.some((l) => detail.label[l] || detail.value[l]));
+
+  const member: StoredTeamMember = {
+    id: existing?.id ?? `m-${Date.now().toString(36)}`,
+    name,
+    role: readLocalized(formData, "role"),
+    bio: readLocalized(formData, "bio"),
+    photo,
+    email: trimmed(formData, "email"),
+    phone: trimmed(formData, "phone"),
+    linkedin: trimmed(formData, "linkedin"),
+    details,
+    sortOrder: readSortOrder(formData),
+    visible: formData.get("visible") === "on",
+  };
+
+  await saveTeamMemberRecord(member);
+
+  if (existing?.photo && existing.photo !== photo) {
+    await deleteUploadedImage(existing.photo);
+  }
+
+  revalidateAbout();
+  redirect("/admin/team");
+}
+
+export async function deleteTeamMember(formData: FormData): Promise<void> {
+  await requireAdmin();
+
+  const id = String(formData.get("id") ?? "");
+  const member = await getTeamMemberById(id);
+  if (member) {
+    await deleteTeamMemberRecord(id);
+    if (member.photo) await deleteUploadedImage(member.photo);
+    revalidateAbout();
+  }
+
+  redirect("/admin/team");
+}
+
+/** One-click show/hide straight from the list, without opening the form. */
+export async function toggleTeamMemberVisibility(formData: FormData): Promise<void> {
+  await requireAdmin();
+
+  const id = String(formData.get("id") ?? "");
+  const member = await getTeamMemberById(id);
+  if (member) {
+    await saveTeamMemberRecord({ ...member, visible: !member.visible });
+    revalidateAbout();
+  }
+
+  redirect("/admin/team");
+}
+
+/* ------------------------------- Gallery ---------------------------------- */
+
+export async function saveGalleryItem(
+  _prev: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  await requireAdmin();
+
+  const id = trimmed(formData, "id");
+  const existing = id ? await getGalleryItemById(id) : undefined;
+
+  let image = existing?.image ?? "";
+  const upload = formFile(formData, "image");
+  if (upload) {
+    const result = await saveUploadedImage(upload, "gallery");
+    if (!result.ok) return { error: uploadErrorMessage(result.reason) };
+    image = result.url;
+  }
+
+  if (!image) return { error: "أضف صورة أولًا." };
+
+  const item: StoredGalleryItem = {
+    id: existing?.id ?? `g-${Date.now().toString(36)}`,
+    image,
+    title: readLocalized(formData, "title"),
+    description: readLocalized(formData, "description"),
+    sortOrder: readSortOrder(formData),
+    visible: formData.get("visible") === "on",
+  };
+
+  await saveGalleryItemRecord(item);
+
+  if (existing?.image && existing.image !== image) {
+    await deleteUploadedImage(existing.image);
+  }
+
+  revalidateAbout();
+  redirect("/admin/gallery");
+}
+
+export async function deleteGalleryItem(formData: FormData): Promise<void> {
+  await requireAdmin();
+
+  const id = String(formData.get("id") ?? "");
+  const item = await getGalleryItemById(id);
+  if (item) {
+    await deleteGalleryItemRecord(id);
+    await deleteUploadedImage(item.image);
+    revalidateAbout();
+  }
+
+  redirect("/admin/gallery");
+}
+
+/** One-click show/hide straight from the list, without opening the form. */
+export async function toggleGalleryItemVisibility(formData: FormData): Promise<void> {
+  await requireAdmin();
+
+  const id = String(formData.get("id") ?? "");
+  const item = await getGalleryItemById(id);
+  if (item) {
+    await saveGalleryItemRecord({ ...item, visible: !item.visible });
+    revalidateAbout();
+  }
+
+  redirect("/admin/gallery");
 }

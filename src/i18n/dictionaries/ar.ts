@@ -10,6 +10,7 @@ const ar: Dictionary = {
   nav: {
     home: "الواجهة الرئيسية",
     products: "منتجاتنا",
+    about: "عن شركتنا",
     contact: "تواصل معنا",
   },
 
@@ -53,6 +54,20 @@ const ar: Dictionary = {
     volume: "الحجم",
     back: "العودة إلى المنتجات",
     notFound: "المنتج غير موجود",
+  },
+
+  about: {
+    title: "عن شركتنا",
+    subtitle: "من نحن، وما الذي يوجّهنا، والفريق الذي يقف خلف علامة véa.",
+    story: "قصتنا",
+    mission: "رسالتنا",
+    vision: "رؤيتنا",
+    values: "قيمنا",
+    team: "فريقنا",
+    teamSubtitle: "الأشخاص الذين يديرون مختبراتنا يوميًا.",
+    gallery: "صور من الشركة",
+    gallerySubtitle: "مقرّاتنا وورشاتنا وأبرز محطاتنا.",
+    empty: "سيتم نشر محتوى هذه الصفحة قريبًا.",
   },
 
   footer: {

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import { Clock, Mail, MapPin, Phone, iconByName } from "@/components/icons";
 import MapPanel from "@/components/map-panel";
@@ -24,9 +25,11 @@ export default function SiteFooter({
 }) {
   const year = new Date().getFullYear();
 
+  /* Real routes stay real links; only the in-page anchors use `<a>`. */
   const nav = [
-    { label: dict.nav.home, href: "#top" },
-    { label: dict.nav.products, href: "#products" },
+    { label: dict.nav.home, href: `/${locale}` },
+    { label: dict.nav.products, href: `/${locale}/products` },
+    { label: dict.nav.about, href: `/${locale}/about` },
     { label: dict.nav.contact, href: "#contact" },
   ];
 
@@ -47,7 +50,7 @@ export default function SiteFooter({
               alt={site.logo.alt}
               width={site.logo.width}
               height={site.logo.height}
-              className="h-9 w-auto"
+              className="h-14 w-auto"
             />
 
             <h2 className="mt-5 text-lg font-bold text-white">
@@ -67,16 +70,19 @@ export default function SiteFooter({
                   {dict.footer.quickLinks}
                 </h3>
                 <ul className="mt-4 space-y-2.5">
-                  {nav.map((item) => (
-                    <li key={item.href}>
-                      <a
-                        href={item.href}
-                        className="text-sm text-white/70 transition-colors duration-200 hover:text-white"
-                      >
-                        {item.label}
-                      </a>
-                    </li>
-                  ))}
+                  {nav.map((item) => {
+                    const Tag = item.href.startsWith("#") ? "a" : Link;
+                    return (
+                      <li key={item.href}>
+                        <Tag
+                          href={item.href}
+                          className="text-sm text-white/70 transition-colors duration-200 hover:text-white"
+                        >
+                          {item.label}
+                        </Tag>
+                      </li>
+                    );
+                  })}
                 </ul>
               </nav>
 

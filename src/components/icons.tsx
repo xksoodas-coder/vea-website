@@ -116,6 +116,21 @@ export const Youtube = (p: IconProps) => (
   </Base>
 );
 
+export const Linkedin = (p: IconProps) => (
+  <Base {...p}>
+    <rect x="3" y="3" width="18" height="18" rx="3" />
+    <path d="M7.5 10.5V17M7.5 7.5v.01M11.5 17v-3.75a2.75 2.75 0 0 1 5.5 0V17" />
+  </Base>
+);
+
+/** Decorative petal pair from the véa mark — used as a section flourish. */
+export const Petals = (p: IconProps) => (
+  <Base {...p} fill="currentColor" stroke="none">
+    <path d="M10.5 2c2.4 4.2 3 7.8 1.8 11.4C9.3 10.4 8.5 5.6 10.5 2Z" />
+    <path d="M19.2 5.4c.3 4.2-1.8 7.8-6 9 .6-4.2 2.4-7.5 6-9Z" />
+  </Base>
+);
+
 export const iconByName = {
   facebook: Facebook,
   instagram: Instagram,
