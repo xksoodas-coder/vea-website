@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Sans_Arabic } from "next/font/google";
 import { notFound } from "next/navigation";
 
+import RevealObserver from "@/components/reveal-observer";
 import { site } from "@/data/site";
 import { getDictionary } from "@/i18n";
 import { dirOf, isLocale, localeTags, locales } from "@/i18n/config";
@@ -62,13 +63,21 @@ export default async function RootLayout({
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
 
+  /* data-scroll-behavior tells the App Router to suspend the smooth scrolling
+     declared in globals.css while it restores scroll on a route change.
+     Without it that reset is swallowed and a new page opens at the offset the
+     previous one was left at. */
   return (
     <html
       lang={lang}
       dir={dirOf(lang)}
+      data-scroll-behavior="smooth"
       className={`${arabic.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col bg-surface">{children}</body>
+      <body className="flex min-h-full flex-col bg-surface">
+        {children}
+        <RevealObserver />
+      </body>
     </html>
   );
 }

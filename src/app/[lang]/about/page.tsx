@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import CompanyGallery from "@/components/company-gallery";
-import RevealObserver from "@/components/reveal-observer";
 import SiteFooter from "@/components/site-footer";
 import SiteHeader from "@/components/site-header";
 import TeamGrid from "@/components/team-grid";
@@ -238,7 +237,6 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
       </main>
 
       <SiteFooter dict={dict} locale={lang} />
-      <RevealObserver />
     </>
   );
 }

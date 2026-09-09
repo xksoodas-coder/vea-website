@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 
 import HomeShowcase from "@/components/home-showcase";
-import RevealObserver from "@/components/reveal-observer";
 import SiteFooter from "@/components/site-footer";
 import SiteHeader from "@/components/site-header";
 import { getDictionary } from "@/i18n";
@@ -38,7 +37,6 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
       </main>
 
       <SiteFooter dict={dict} locale={lang} />
-      <RevealObserver />
     </>
   );
 }
