@@ -1,0 +1,715 @@
+{
+  "banners": [
+    {
+      "id": "banner-1",
+      "image": "/images/banners/banner-1.svg",
+      "alt": {
+        "fr": "véa Hair Care — shampooings et après-shampooings",
+        "ar": "véa Hair Care — الشامبو والبلسم",
+        "en": "véa Hair Care — shampoos and conditioners"
+      },
+      "href": "#products"
+    },
+    {
+      "id": "banner-2",
+      "image": "/images/banners/banner-2.svg",
+      "alt": {
+        "fr": "véa Natural Baby Care — la gamme soin bébé",
+        "ar": "véa Natural Baby Care — مجموعة عناية الطفل",
+        "en": "véa Natural Baby Care — the baby care range"
+      },
+      "href": "#products"
+    },
+    {
+      "id": "banner-3",
+      "image": "/images/banners/banner-3.svg",
+      "alt": {
+        "fr": "véa Intime — la gamme de soin intime",
+        "ar": "véa Intime — مجموعة العناية الحميمة",
+        "en": "véa Intime — the intimate care range"
+      },
+      "href": "#products"
+    }
+  ],
+  "categories": [
+    {
+      "id": "featured",
+      "label": {
+        "fr": "Meilleures ventes",
+        "ar": "الأكثر طلبًا",
+        "en": "Best sellers"
+      },
+      "image": null
+    },
+    {
+      "id": "shampoo",
+      "label": {
+        "fr": "Shampooings",
+        "ar": "الشامبو",
+        "en": "Shampoos"
+      },
+      "image": null
+    },
+    {
+      "id": "conditioner",
+      "label": {
+        "fr": "Après-shampooings",
+        "ar": "البلسم",
+        "en": "Conditioners"
+      },
+      "image": null
+    },
+    {
+      "id": "baby",
+      "label": {
+        "fr": "Soin bébé",
+        "ar": "عناية الطفل",
+        "en": "Baby care"
+      },
+      "image": null
+    },
+    {
+      "id": "intime",
+      "label": {
+        "fr": "Soin intime",
+        "ar": "العناية الحميمة",
+        "en": "Intimate care"
+      },
+      "image": null
+    }
+  ],
+  "products": [
+    {
+      "id": "shampooing-nutritif",
+      "slug": "shampooing-nutritif",
+      "name": {
+        "fr": "Shampooing nutritif cheveux secs",
+        "ar": "شامبو مغذٍّ للشعر الجاف",
+        "en": "Nourishing shampoo for dry hair"
+      },
+      "description": {
+        "fr": "Un shampooing riche qui nourrit les cheveux secs et rend la chevelure souple et facile à démêler, lavage après lavage.",
+        "ar": "شامبو غني يغذّي الشعر الجاف ويمنحه نعومة وسهولة في التسريح مع كل غسلة.",
+        "en": "A rich shampoo that nourishes dry hair, leaving it soft and easy to detangle wash after wash."
+      },
+      "line": {
+        "fr": "Soin des cheveux",
+        "ar": "العناية بالشعر",
+        "en": "Hair care"
+      },
+      "volumeMl": 400,
+      "sizeLabel": null,
+      "categoryIds": [
+        "shampoo",
+        "featured"
+      ],
+      "images": [
+        "/images/products/shampoo-nourishing.svg"
+      ]
+    },
+    {
+      "id": "shampooing-quotidien",
+      "slug": "shampooing-quotidien",
+      "name": {
+        "fr": "Shampooing usage quotidien",
+        "ar": "شامبو للاستعمال اليومي",
+        "en": "Daily use shampoo"
+      },
+      "description": {
+        "fr": "Une formule douce au pH équilibré, assez délicate pour un usage quotidien sur tous types de cheveux.",
+        "ar": "تركيبة لطيفة متوازنة الحموضة، رقيقة بما يكفي للاستعمال اليومي على جميع أنواع الشعر.",
+        "en": "A gentle, pH-balanced formula mild enough for everyday use on all hair types."
+      },
+      "line": {
+        "fr": "Soin des cheveux",
+        "ar": "العناية بالشعر",
+        "en": "Hair care"
+      },
+      "volumeMl": 400,
+      "sizeLabel": null,
+      "categoryIds": [
+        "shampoo",
+        "featured"
+      ],
+      "images": [
+        "/images/products/shampoo-daily.svg"
+      ]
+    },
+    {
+      "id": "shampooing-antipelliculaire",
+      "slug": "shampooing-antipelliculaire",
+      "name": {
+        "fr": "Shampooing antipelliculaire",
+        "ar": "شامبو مضاد للقشرة",
+        "en": "Anti-dandruff shampoo"
+      },
+      "description": {
+        "fr": "Aide à éliminer les pellicules et à apaiser le cuir chevelu tout en respectant sa barrière naturelle.",
+        "ar": "يساعد على إزالة القشرة وتهدئة فروة الرأس مع الحفاظ على حاجزها الطبيعي.",
+        "en": "Helps clear dandruff and soothe the scalp while respecting its natural barrier."
+      },
+      "line": {
+        "fr": "Soin des cheveux",
+        "ar": "العناية بالشعر",
+        "en": "Hair care"
+      },
+      "volumeMl": 400,
+      "sizeLabel": null,
+      "categoryIds": [
+        "shampoo",
+        "featured"
+      ],
+      "images": [
+        "/images/products/shampoo-antidandruff.svg"
+      ]
+    },
+    {
+      "id": "shampooing-cheveux-gras",
+      "slug": "shampooing-cheveux-gras",
+      "name": {
+        "fr": "Shampooing cheveux gras",
+        "ar": "شامبو للشعر الدهني",
+        "en": "Shampoo for oily hair"
+      },
+      "description": {
+        "fr": "Purifie en douceur et régule l'excès de sébum pour des racines légères plus longtemps.",
+        "ar": "ينظّف بلطف ويوازن إفراز الدهون لتبقى الجذور خفيفة لفترة أطول.",
+        "en": "Gently purifies and regulates excess sebum so roots stay light for longer."
+      },
+      "line": {
+        "fr": "Soin des cheveux",
+        "ar": "العناية بالشعر",
+        "en": "Hair care"
+      },
+      "volumeMl": 400,
+      "sizeLabel": null,
+      "categoryIds": [
+        "shampoo"
+      ],
+      "images": [
+        "/images/products/shampoo-oily.svg"
+      ]
+    },
+    {
+      "id": "shampooing-cheveux-colores",
+      "slug": "shampooing-cheveux-colores",
+      "name": {
+        "fr": "Shampooing cheveux colorés",
+        "ar": "شامبو للشعر المصبوغ",
+        "en": "Shampoo for coloured hair"
+      },
+      "description": {
+        "fr": "Nettoie sans agresser et aide à préserver l'éclat et la durée de la couleur.",
+        "ar": "ينظّف دون قسوة ويساعد على حماية لمعان اللون وإطالة ثباته.",
+        "en": "Cleanses without stripping and helps preserve colour vibrancy and longevity."
+      },
+      "line": {
+        "fr": "Soin des cheveux",
+        "ar": "العناية بالشعر",
+        "en": "Hair care"
+      },
+      "volumeMl": 400,
+      "sizeLabel": null,
+      "categoryIds": [
+        "shampoo"
+      ],
+      "images": [
+        "/images/products/shampoo-color.svg"
+      ]
+    },
+    {
+      "id": "apres-shampooing-hydratant",
+      "slug": "apres-shampooing-hydratant",
+      "name": {
+        "fr": "Après-shampooing hydratant",
+        "ar": "بلسم مرطّب للشعر",
+        "en": "Hydrating conditioner"
+      },
+      "description": {
+        "fr": "Hydrate et démêle instantanément pour des cheveux doux, brillants et faciles à coiffer.",
+        "ar": "يرطّب ويفكّ التشابك فورًا للحصول على شعر ناعم لامع وسهل التصفيف.",
+        "en": "Instantly hydrates and detangles for soft, shiny, easy-to-style hair."
+      },
+      "line": {
+        "fr": "Soin des cheveux",
+        "ar": "العناية بالشعر",
+        "en": "Hair care"
+      },
+      "volumeMl": 250,
+      "sizeLabel": null,
+      "categoryIds": [
+        "conditioner",
+        "featured"
+      ],
+      "images": [
+        "/images/products/conditioner-hydra.svg"
+      ]
+    },
+    {
+      "id": "apres-shampooing-cheveux-colores",
+      "slug": "apres-shampooing-cheveux-colores",
+      "name": {
+        "fr": "Après-shampooing cheveux colorés",
+        "ar": "بلسم للشعر المصبوغ",
+        "en": "Conditioner for coloured hair"
+      },
+      "description": {
+        "fr": "Referme les écailles du cheveu et prolonge l'intensité de la couleur après chaque lavage.",
+        "ar": "يغلق مسام الشعرة ويطيل شدّة اللون بعد كل غسلة.",
+        "en": "Seals the hair cuticle and extends colour intensity after every wash."
+      },
+      "line": {
+        "fr": "Soin des cheveux",
+        "ar": "العناية بالشعر",
+        "en": "Hair care"
+      },
+      "volumeMl": 250,
+      "sizeLabel": null,
+      "categoryIds": [
+        "conditioner"
+      ],
+      "images": [
+        "/images/products/conditioner-color.svg"
+      ]
+    },
+    {
+      "id": "apres-shampooing-aux-huiles",
+      "slug": "apres-shampooing-aux-huiles",
+      "name": {
+        "fr": "Après-shampooing aux huiles",
+        "ar": "بلسم مغذٍّ بالزيوت",
+        "en": "Nourishing oil conditioner"
+      },
+      "description": {
+        "fr": "Enrichi en huiles végétales, il nourrit en profondeur les longueurs les plus sèches.",
+        "ar": "غني بالزيوت النباتية، يغذّي الأطراف الجافة بعمق.",
+        "en": "Enriched with plant oils to deeply nourish the driest lengths."
+      },
+      "line": {
+        "fr": "Soin des cheveux",
+        "ar": "العناية بالشعر",
+        "en": "Hair care"
+      },
+      "volumeMl": 250,
+      "sizeLabel": null,
+      "categoryIds": [
+        "conditioner"
+      ],
+      "images": [
+        "/images/products/conditioner-nutri.svg"
+      ]
+    },
+    {
+      "id": "apres-shampooing-reparateur",
+      "slug": "apres-shampooing-reparateur",
+      "name": {
+        "fr": "Après-shampooing réparateur",
+        "ar": "بلسم ضد التقصّف",
+        "en": "Repairing conditioner"
+      },
+      "description": {
+        "fr": "Aide à réparer les fibres abîmées et à limiter les fourches sur les cheveux fragilisés.",
+        "ar": "يساعد على إصلاح الألياف التالفة والحدّ من التقصّف في الشعر الضعيف.",
+        "en": "Helps repair damaged fibres and limit split ends on weakened hair."
+      },
+      "line": {
+        "fr": "Soin des cheveux",
+        "ar": "العناية بالشعر",
+        "en": "Hair care"
+      },
+      "volumeMl": 250,
+      "sizeLabel": null,
+      "categoryIds": [
+        "conditioner"
+      ],
+      "images": [
+        "/images/products/conditioner-repair.svg"
+      ]
+    },
+    {
+      "id": "apres-shampooing-cheveux-secs",
+      "slug": "apres-shampooing-cheveux-secs",
+      "name": {
+        "fr": "Après-shampooing cheveux secs",
+        "ar": "بلسم للشعر الجاف",
+        "en": "Conditioner for dry hair"
+      },
+      "description": {
+        "fr": "Une texture riche qui restaure le confort et la souplesse des cheveux très secs.",
+        "ar": "قوام غني يعيد الراحة والليونة للشعر شديد الجفاف.",
+        "en": "A rich texture that restores comfort and suppleness to very dry hair."
+      },
+      "line": {
+        "fr": "Soin des cheveux",
+        "ar": "العناية بالشعر",
+        "en": "Hair care"
+      },
+      "volumeMl": 250,
+      "sizeLabel": null,
+      "categoryIds": [
+        "conditioner"
+      ],
+      "images": [
+        "/images/products/conditioner-dry.svg"
+      ]
+    },
+    {
+      "id": "apres-shampooing-leger",
+      "slug": "apres-shampooing-leger",
+      "name": {
+        "fr": "Après-shampooing léger quotidien",
+        "ar": "بلسم يومي خفيف",
+        "en": "Light daily conditioner"
+      },
+      "description": {
+        "fr": "Une texture légère qui démêle sans alourdir, idéale pour les cheveux fins.",
+        "ar": "قوام خفيف يفكّ التشابك دون أن يثقل الشعر، مثالي للشعر الناعم.",
+        "en": "A light texture that detangles without weighing hair down — ideal for fine hair."
+      },
+      "line": {
+        "fr": "Soin des cheveux",
+        "ar": "العناية بالشعر",
+        "en": "Hair care"
+      },
+      "volumeMl": 250,
+      "sizeLabel": null,
+      "categoryIds": [
+        "conditioner"
+      ],
+      "images": [
+        "/images/products/conditioner-light.svg"
+      ]
+    },
+    {
+      "id": "shampooing-bebe",
+      "slug": "shampooing-bebe",
+      "name": {
+        "fr": "Shampooing bébé",
+        "ar": "شامبو الأطفال",
+        "en": "Baby shampoo"
+      },
+      "description": {
+        "fr": "Formule sans larmes, testée sous contrôle dermatologique, pour laver en douceur les cheveux de bébé.",
+        "ar": "تركيبة لا تسبب الدموع، مختبرة تحت إشراف طبي، لغسل شعر الطفل بلطف.",
+        "en": "A no-tears formula, dermatologically tested, to gently wash baby's hair."
+      },
+      "line": {
+        "fr": "Soin bébé",
+        "ar": "عناية الطفل",
+        "en": "Baby care"
+      },
+      "volumeMl": 250,
+      "sizeLabel": null,
+      "categoryIds": [
+        "baby",
+        "shampoo",
+        "featured"
+      ],
+      "images": [
+        "/images/products/baby-shampoo.svg"
+      ]
+    },
+    {
+      "id": "gel-douche-bebe",
+      "slug": "gel-douche-bebe",
+      "name": {
+        "fr": "Gel douche",
+        "ar": "جل الاستحمام",
+        "en": "Shower gel"
+      },
+      "description": {
+        "fr": "Nettoie le corps et les cheveux en une seule étape, sans dessécher la peau fragile de bébé.",
+        "ar": "ينظّف الجسم والشعر في خطوة واحدة دون أن يجفّف بشرة الطفل الرقيقة.",
+        "en": "Cleanses body and hair in one step without drying baby's delicate skin."
+      },
+      "line": {
+        "fr": "Soin bébé",
+        "ar": "عناية الطفل",
+        "en": "Baby care"
+      },
+      "volumeMl": 250,
+      "sizeLabel": null,
+      "categoryIds": [
+        "baby"
+      ],
+      "images": [
+        "/images/products/baby-douche.svg"
+      ]
+    },
+    {
+      "id": "lait-de-corps-bebe",
+      "slug": "lait-de-corps-bebe",
+      "name": {
+        "fr": "Lait de corps",
+        "ar": "حليب الجسم",
+        "en": "Body lotion"
+      },
+      "description": {
+        "fr": "Un lait fondant qui hydrate et protège la peau de bébé au quotidien.",
+        "ar": "حليب سريع الامتصاص يرطّب بشرة الطفل ويحميها يوميًا.",
+        "en": "A melt-in lotion that hydrates and protects baby's skin every day."
+      },
+      "line": {
+        "fr": "Soin bébé",
+        "ar": "عناية الطفل",
+        "en": "Baby care"
+      },
+      "volumeMl": 250,
+      "sizeLabel": null,
+      "categoryIds": [
+        "baby"
+      ],
+      "images": [
+        "/images/products/baby-lait.svg"
+      ]
+    },
+    {
+      "id": "creme-de-change",
+      "slug": "creme-de-change",
+      "name": {
+        "fr": "Crème de change",
+        "ar": "كريم الحفاض",
+        "en": "Nappy cream"
+      },
+      "description": {
+        "fr": "Apaise et protège le siège de bébé à chaque change, dès la naissance.",
+        "ar": "يهدئ ويحمي منطقة الحفاض عند كل تغيير، منذ الولادة.",
+        "en": "Soothes and protects baby's bottom at every change, from birth."
+      },
+      "line": {
+        "fr": "Soin bébé",
+        "ar": "عناية الطفل",
+        "en": "Baby care"
+      },
+      "volumeMl": 250,
+      "sizeLabel": null,
+      "categoryIds": [
+        "baby"
+      ],
+      "images": [
+        "/images/products/baby-change.svg"
+      ]
+    },
+    {
+      "id": "huile-de-massage",
+      "slug": "huile-de-massage",
+      "name": {
+        "fr": "Huile de massage",
+        "ar": "زيت التدليك",
+        "en": "Massage oil"
+      },
+      "description": {
+        "fr": "Une huile légère qui nourrit la peau et accompagne le moment du massage.",
+        "ar": "زيت خفيف يغذّي البشرة ويرافق لحظة التدليك.",
+        "en": "A light oil that nourishes the skin and accompanies massage time."
+      },
+      "line": {
+        "fr": "Soin bébé",
+        "ar": "عناية الطفل",
+        "en": "Baby care"
+      },
+      "volumeMl": 250,
+      "sizeLabel": null,
+      "categoryIds": [
+        "baby"
+      ],
+      "images": [
+        "/images/products/baby-massage.svg"
+      ]
+    },
+    {
+      "id": "eau-nettoyante-sans-rincage",
+      "slug": "eau-nettoyante-sans-rincage",
+      "name": {
+        "fr": "Eau nettoyante sans rinçage",
+        "ar": "ماء منظّف بدون شطف",
+        "en": "No-rinse cleansing water"
+      },
+      "description": {
+        "fr": "Nettoie le visage, le corps et le siège sans rinçage — pratique en déplacement.",
+        "ar": "ينظّف الوجه والجسم ومنطقة الحفاض دون شطف — عملي أثناء التنقل.",
+        "en": "Cleanses face, body and nappy area with no rinsing — handy on the go."
+      },
+      "line": {
+        "fr": "Soin bébé",
+        "ar": "عناية الطفل",
+        "en": "Baby care"
+      },
+      "volumeMl": 300,
+      "sizeLabel": null,
+      "categoryIds": [
+        "baby"
+      ],
+      "images": [
+        "/images/products/baby-water.svg"
+      ]
+    },
+    {
+      "id": "gel-lavant-intime-fresh",
+      "slug": "gel-lavant-intime-fresh",
+      "name": {
+        "fr": "Gel lavant intime — Fresh",
+        "ar": "غسول حميم — فريش",
+        "en": "Intimate wash — Fresh"
+      },
+      "description": {
+        "fr": "Fraîcheur longue durée et confort au quotidien, avec un pH respectueux de la flore intime.",
+        "ar": "انتعاش طويل الأمد وراحة يومية، بحموضة تحترم التوازن الطبيعي للمنطقة الحميمة.",
+        "en": "Long-lasting freshness and daily comfort, with a pH that respects intimate flora."
+      },
+      "line": {
+        "fr": "Soin intime",
+        "ar": "العناية الحميمة",
+        "en": "Intimate care"
+      },
+      "volumeMl": 200,
+      "sizeLabel": null,
+      "categoryIds": [
+        "intime",
+        "featured"
+      ],
+      "images": [
+        "/images/products/intime-fresh.svg"
+      ]
+    },
+    {
+      "id": "gel-lavant-intime-daily",
+      "slug": "gel-lavant-intime-daily",
+      "name": {
+        "fr": "Gel lavant intime — Daily",
+        "ar": "غسول حميم — يومي",
+        "en": "Intimate wash — Daily"
+      },
+      "description": {
+        "fr": "Un nettoyage doux pensé pour un usage quotidien, sans dessécher.",
+        "ar": "تنظيف لطيف مصمّم للاستعمال اليومي دون تجفيف.",
+        "en": "A gentle cleanse designed for everyday use, without drying."
+      },
+      "line": {
+        "fr": "Soin intime",
+        "ar": "العناية الحميمة",
+        "en": "Intimate care"
+      },
+      "volumeMl": 200,
+      "sizeLabel": null,
+      "categoryIds": [
+        "intime"
+      ],
+      "images": [
+        "/images/products/intime-daily.svg"
+      ]
+    },
+    {
+      "id": "gel-lavant-intime-confort",
+      "slug": "gel-lavant-intime-confort",
+      "name": {
+        "fr": "Gel lavant intime — Confort",
+        "ar": "غسول حميم — كونفور",
+        "en": "Intimate wash — Comfort"
+      },
+      "description": {
+        "fr": "Apaise les sensations de sécheresse intime et restaure le confort.",
+        "ar": "يهدئ الإحساس بالجفاف في المنطقة الحميمة ويعيد الشعور بالراحة.",
+        "en": "Soothes intimate dryness and restores comfort."
+      },
+      "line": {
+        "fr": "Soin intime",
+        "ar": "العناية الحميمة",
+        "en": "Intimate care"
+      },
+      "volumeMl": 200,
+      "sizeLabel": null,
+      "categoryIds": [
+        "intime"
+      ],
+      "images": [
+        "/images/products/intime-confort.svg"
+      ]
+    },
+    {
+      "id": "gel-lavant-intime-probiotique",
+      "slug": "gel-lavant-intime-probiotique",
+      "name": {
+        "fr": "Gel lavant intime — Probiotique",
+        "ar": "غسول حميم — بروبيوتيك",
+        "en": "Intimate wash — Probiotic"
+      },
+      "description": {
+        "fr": "Enrichi en probiotiques pour aider à maintenir l'équilibre de la flore intime.",
+        "ar": "غني بالبروبيوتيك للمساعدة في الحفاظ على توازن الفلورا الحميمة.",
+        "en": "Enriched with probiotics to help maintain intimate flora balance."
+      },
+      "line": {
+        "fr": "Soin intime",
+        "ar": "العناية الحميمة",
+        "en": "Intimate care"
+      },
+      "volumeMl": 200,
+      "sizeLabel": null,
+      "categoryIds": [
+        "intime"
+      ],
+      "images": [
+        "/images/products/intime-probiotique.svg"
+      ]
+    },
+    {
+      "id": "gel-lavant-intime-sensitive",
+      "slug": "gel-lavant-intime-sensitive",
+      "name": {
+        "fr": "Gel lavant intime — Sensitive",
+        "ar": "غسول حميم — سنسيتيف",
+        "en": "Intimate wash — Sensitive"
+      },
+      "description": {
+        "fr": "Formulé pour les peaux sensibles : apaisant, sans parfum agressif.",
+        "ar": "مُصاغ للبشرة الحساسة: مهدّئ وبدون عطور قاسية.",
+        "en": "Formulated for sensitive skin: soothing, without harsh fragrance."
+      },
+      "line": {
+        "fr": "Soin intime",
+        "ar": "العناية الحميمة",
+        "en": "Intimate care"
+      },
+      "volumeMl": 200,
+      "sizeLabel": null,
+      "categoryIds": [
+        "intime"
+      ],
+      "images": [
+        "/images/products/intime-sensitive.svg"
+      ]
+    },
+    {
+      "id": "lingettes-intimes",
+      "slug": "lingettes-intimes",
+      "name": {
+        "fr": "Lingettes intimes",
+        "ar": "مناديل حميمة",
+        "en": "Intimate wipes"
+      },
+      "description": {
+        "fr": "Des lingettes douces à emporter partout, pour une sensation de fraîcheur immédiate.",
+        "ar": "مناديل لطيفة يمكن حملها في كل مكان، لإحساس فوري بالانتعاش.",
+        "en": "Gentle wipes to carry anywhere, for an instant feeling of freshness."
+      },
+      "line": {
+        "fr": "Soin intime",
+        "ar": "العناية الحميمة",
+        "en": "Intimate care"
+      },
+      "volumeMl": null,
+      "sizeLabel": {
+        "fr": "20 lingettes",
+        "ar": "20 منديلًا",
+        "en": "20 wipes"
+      },
+      "categoryIds": [
+        "intime"
+      ],
+      "images": [
+        "/images/products/intime-wipes.svg"
+      ]
+    }
+  ]
+}

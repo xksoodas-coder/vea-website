@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 36" width="120" height="36" role="img">
+  <title>logo placeholder</title>
+  <rect x="0.75" y="0.75" width="118.5" height="34.5" rx="8"
+        fill="#eef3fc" 
+        stroke="#afc5ee" 
+        stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="60" y="22.5" text-anchor="middle" font-family="Segoe UI, Tahoma, Helvetica, Arial, sans-serif"
+        font-size="11" font-weight="600" letter-spacing="3"
+        fill="#7ba0df" >LOGO</text>
+</svg>

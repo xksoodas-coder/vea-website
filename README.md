@@ -1,36 +1,168 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# موقع véa — Sarl Hyprodis Laboratoires
 
-## Getting Started
+موقع تعريفي متعدّد اللغات (فرنسية / عربية / إنجليزية) مبني بـ **Next.js 16 + TypeScript +
+Tailwind v4**، مع لوحة تحكم خاصة لإدارة المنتجات.
 
-First, run the development server:
+## التشغيل
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- الموقع: <http://localhost:3000> (يحوّل تلقائيًا إلى `/fr`)
+- لوحة التحكم: <http://localhost:3000/admin>
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## أولًا: إعداد لوحة التحكم (خطوة إجبارية)
 
-## Learn More
+لوحة التحكم مقفلة حتى تضبط كلمة السر. ولّد كلمة سر مُشفَّرة:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run admin:password "كلمة-السر-التي-تريدها"
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+انسخ السطرين الناتجين إلى ملف `.env.local` في جذر المشروع:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+ADMIN_PASSWORD_HASH=scrypt:...
+ADMIN_SESSION_SECRET=...
+```
 
-## Deploy on Vercel
+ثم أعد تشغيل الخادم. الملف `.env.local` مستثنى من Git ولا يُرفع أبدًا.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+> ⚠️ يوجد حاليًا `.env.local` بكلمة سر تجريبية استُعملت للاختبار المحلي فقط.
+> **غيّرها قبل النشر.**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## اللغات
+
+| الرابط | اللغة | الاتجاه |
+| --- | --- | --- |
+| `/fr` | الفرنسية (الافتراضية) | LTR |
+| `/ar` | العربية | RTL |
+| `/en` | الإنجليزية | LTR |
+
+`/` يحوّل تلقائيًا إلى `/fr`. زر تغيير اللغة في أعلى يسار الشريط (أو اليمين في العربية).
+
+**نصوص واجهة الموقع** (القوائم، العناوين، أسفل الموقع) في `src/i18n/dictionaries/`.
+**نصوص المنتجات** تُحرَّر من لوحة التحكم وتُحفظ في `data/content.json`.
+
+---
+
+## بنية الصفحات
+
+| المسار | الوصف |
+| --- | --- |
+| `/[lang]` | الواجهة الرئيسية: إعلان 67% + فئات 33%، ثم المنتجات |
+| `/[lang]/products` | كل المنتجات: فلترة بالفئات في الأعلى، ٣ منتجات في السطر |
+| `/[lang]/products/[slug]` | صفحة المنتج: معرض صور + المعلومات كاملة |
+| `/admin` | لوحة التحكم (خاصة، محمية بكلمة سر) |
+
+---
+
+## لوحة التحكم
+
+لكل منتج:
+
+- **الاسم** — ثلاثة حقول: فرنسي، عربي، إنجليزي
+- **الوصف** — ثلاثة حقول أيضًا؛ يظهر الوصف حسب اللغة المختارة في الموقع
+- **المجموعة** — النص الذي يظهر أسفل صورة المنتج، بثلاث لغات
+- **الحجم بالمليلتر** — يظهر في بطاقة المنتج وفي صفحة التفاصيل
+- **الفئات** — يمكن اختيار أكثر من فئة
+- **الصور** — عدة صور لكل منتج؛ **الصورة الأولى هي الرئيسية**، ورتّبها بالأسهم.
+  الباقي يظهر كمصغّرات تحت الصورة في صفحة المنتج، والتقليب بينها بتلاشٍ سلس.
+
+الصور تُرفع إلى `public/uploads/`، والصفحات العامة تُحدَّث تلقائيًا بعد كل حفظ.
+
+> **مهم عند النشر:** رفع الصور يكتب على القرص. هذا يعمل على خادم عادي (VPS أو Node)
+> لكنه **لا يعمل على Vercel Serverless** لأن نظام الملفات للقراءة فقط. إن نشرت على
+> Vercel فستحتاج تخزينًا خارجيًا للصور (Vercel Blob مثلًا).
+
+---
+
+## الأمان
+
+| الإجراء | التفاصيل |
+| --- | --- |
+| كلمة السر | مُشفَّرة بـ scrypt، تُقارن بمقارنة ثابتة الزمن (لا تسريب توقيت) |
+| الجلسة | كوكي موقَّع بـ HMAC-SHA256، `HttpOnly` + `SameSite=Strict` + `Secure` في الإنتاج، صلاحية 8 ساعات |
+| الحماية من التخمين | 5 محاولات ثم قفل 15 دقيقة لكل عنوان IP |
+| فحص الصلاحية | يتم داخل **كل** Server Action وليس في الصفحة فقط |
+| رفع الصور | فحص البايتات الأولى للملف (لا نثق بنوع MIME)، حد 5 ميغابايت، اسم عشوائي، مسار مقفل على مجلد واحد |
+| فهرسة محركات البحث | `noindex` + `X-Robots-Tag` + `robots.txt` تمنع `/admin` |
+| ترويسات الأمان | CSP، HSTS، `X-Frame-Options: DENY`، `nosniff`، `Referrer-Policy`، `Permissions-Policy` |
+| الأسرار | من متغيّرات البيئة فقط، بلا بادئة `NEXT_PUBLIC_` فلا تصل للمتصفح أبدًا |
+
+إن كان الإعداد ناقصًا ترفض اللوحة الدخول بالكامل (fail closed) وتعرض تعليمات الإصلاح.
+
+---
+
+## الصور الافتراضية
+
+كل الصور حاليًا **رمادية فارغة** كما طلبت. استبدلها من لوحة التحكم، أو ضع ملفاتك مباشرة:
+
+| المجلد | المقاس المقترح |
+| --- | --- |
+| `public/images/brand/logo.svg` و `logo-light.svg` | 120×36 (الثاني للخلفية الزرقاء) |
+| `public/images/banners/` | 1500×1125 (4:3)، اجعل المحتوى المهم في الوسط |
+| `public/images/categories/` | 400×400 مربّعة |
+| صور المنتجات | 600×750 (4:5) — عبر لوحة التحكم |
+
+> إذا استبدلت صورة ولم تظهر، احذف ذاكرة Next المؤقتة:
+> ```bash
+> rm -rf .next/dev/cache/images
+> ```
+
+---
+
+## الهوية البصرية
+
+| الاسم | القيمة | الاستعمال |
+| --- | --- | --- |
+| `brand-600` | `#14357f` | الأزرق الأساسي |
+| `brand-700` | `#0f2a69` | اسم المجموعة في البطاقة |
+| `brand-900` | `#08183f` | خلفية أسفل الموقع |
+| `ink` | `#101733` | النص الأساسي |
+| `ink-soft` | `#565d7a` | نص ثانوي |
+
+الخط: **IBM Plex Sans Arabic** مستضاف محليًا (بدون طلب لخوادم Google)، يغطي العربية
+واللاتينية معًا.
+
+---
+
+## بنية الملفات
+
+```
+data/content.json          ← الكتالوج (تكتبه لوحة التحكم)
+scripts/
+  hash-password.mjs        ← توليد كلمة السر المشفّرة
+  seed-content.mjs         ← تعبئة الكتالوج أول مرة
+src/
+  app/
+    [lang]/                ← الموقع العام (fr / ar / en)
+    admin/                 ← لوحة التحكم (جذر منفصل، noindex)
+      login/
+      (protected)/         ← كل ما بداخله خلف فحص الجلسة
+      actions.ts           ← Server Actions
+    robots.ts
+  components/
+    admin/                 ← نموذج المنتج + نموذج الدخول
+    product-gallery.tsx    ← معرض الصور مع المصغّرات
+    ...
+  i18n/                    ← نصوص الواجهة بثلاث لغات
+  lib/
+    auth.ts                ← كلمة السر، الجلسة، الحد من المحاولات
+    content.ts             ← قراءة/كتابة الكتالوج
+    uploads.ts             ← رفع الصور الآمن
+    view.ts                ← تحويل الكتالوج لنصوص جاهزة حسب اللغة
+```
+
+---
+
+## ما تبقّى
+
+- إدارة الفئات والإعلانات من لوحة التحكم (المنتجات فقط حاليًا؛ الفئات والإعلانات
+  تُعدَّل من `data/content.json` مباشرة).
+- الخريطة في أسفل الموقع تحتاج تأكيدًا بصريًا في متصفح حقيقي.
