@@ -64,7 +64,7 @@ export default function SiteFooter({
     <>
       {/* ==================== Contact + location ==================== */}
       <section id="contact" className="container-page section-space">
-        <div className="grid gap-9 lg:grid-cols-[1fr_1.1fr] lg:gap-[7%]">
+        <div className="grid gap-9 lg:grid-cols-[0.8fr_1.35fr] lg:gap-[5%]">
           {/* -------- Reach us -------- */}
           <div className="reveal">
             <p className="eyebrow mb-4 text-rose-ink">{dict.footer.contact}</p>
@@ -96,7 +96,7 @@ export default function SiteFooter({
 
           {/* -------- Sage location panel -------- */}
           <div
-            className="reveal grid overflow-hidden rounded-[22px] border border-[#dae1d1] bg-[#e7edde] md:grid-cols-[0.9fr_1.1fr]"
+            className="reveal grid overflow-hidden rounded-[22px] border border-[#dae1d1] bg-[#e7edde] md:grid-cols-[1fr_1.2fr]"
             style={{ "--reveal-delay": "100ms" } as React.CSSProperties}
           >
             <div className="p-7 md:p-8 lg:p-10">

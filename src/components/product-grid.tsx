@@ -1,30 +1,36 @@
+"use client";
+
+import { useState } from "react";
+
 import ProductCard from "@/components/product-card";
+import ProductDialog from "@/components/product-dialog";
+import type { Dictionary } from "@/i18n";
 import type { Locale } from "@/i18n/config";
 import type { ProductView } from "@/lib/view";
 
 export default function ProductGrid({
   products,
   locale,
+  dict,
   heading,
   eyebrow,
-  ctaLabel,
-  emptyLabel,
   cardSize = "default",
   headingId = "products-heading",
   labelledBy,
 }: {
   products: ProductView[];
   locale: Locale;
+  dict: Dictionary;
   heading?: string;
   /** Small-caps label set above the heading. */
   eyebrow?: string;
-  ctaLabel: string;
-  emptyLabel: string;
   cardSize?: "default" | "large";
   headingId?: string;
   /** Set when the grid is the panel of a tablist. */
   labelledBy?: string;
 }) {
+  const [opened, setOpened] = useState<ProductView | null>(null);
+
   return (
     <>
       {heading && (
@@ -37,7 +43,7 @@ export default function ProductGrid({
       )}
 
       {products.length === 0 ? (
-        <p className="py-12 text-center text-ink-soft">{emptyLabel}</p>
+        <p className="py-12 text-center text-ink-soft">{dict.productsPage.empty}</p>
       ) : (
         <div
           id="product-panel"
@@ -55,13 +61,20 @@ export default function ProductGrid({
               <ProductCard
                 product={product}
                 locale={locale}
-                ctaLabel={ctaLabel}
+                onOpen={setOpened}
                 size={cardSize}
               />
             </div>
           ))}
         </div>
       )}
+
+      <ProductDialog
+        product={opened}
+        locale={locale}
+        dict={dict}
+        onClose={() => setOpened(null)}
+      />
     </>
   );
 }

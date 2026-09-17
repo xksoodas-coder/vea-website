@@ -24,6 +24,7 @@ const fr = {
     mainNav: "Navigation principale",
     openMenu: "Ouvrir le menu",
     closeMenu: "Fermer le menu",
+    close: "Fermer",
     skipToContent: "Aller au contenu",
     homeLink: "Accueil",
     carousel: "Publicités et offres",

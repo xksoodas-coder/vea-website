@@ -33,7 +33,9 @@ export default function HomeShowcase({
         than bleeding to the edges — the oversized top-start radius is the
         signature shape of the identity.
       */}
-      <div className="container-page pt-9 pb-8 md:pt-12 md:pb-10">
+      {/* Wider than `container-page`: the banner is the first thing on the
+          page and earns the extra width. */}
+      <div className="mx-auto w-full max-w-[1700px] px-[3%] pt-9 pb-8 md:pt-12 md:pb-10">
         <HeroCarousel slides={slides} dict={dict} />
       </div>
 
@@ -55,8 +57,7 @@ export default function HomeShowcase({
           locale={locale}
           heading={activeLabel}
           eyebrow={dict.productsPage.title}
-          ctaLabel={dict.product.details}
-          emptyLabel={dict.productsPage.empty}
+          dict={dict}
           labelledBy={`tab-${active}`}
         />
       </section>

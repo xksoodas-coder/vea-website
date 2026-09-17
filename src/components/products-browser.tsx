@@ -79,8 +79,7 @@ export default function ProductsBrowser({
         key={active}
         products={shown}
         locale={locale}
-        ctaLabel={dict.product.details}
-        emptyLabel={dict.productsPage.empty}
+        dict={dict}
         cardSize="large"
         labelledBy={`ptab-${active}`}
       />

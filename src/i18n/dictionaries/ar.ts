@@ -18,6 +18,7 @@ const ar: Dictionary = {
     mainNav: "التنقل الرئيسي",
     openMenu: "فتح القائمة",
     closeMenu: "إغلاق القائمة",
+    close: "إغلاق",
     skipToContent: "تخطَّ إلى المحتوى",
     homeLink: "الواجهة الرئيسية",
     carousel: "إعلانات وعروض",

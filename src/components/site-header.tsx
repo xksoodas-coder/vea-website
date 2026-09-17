@@ -50,17 +50,17 @@ export default function SiteHeader({ locale, dict }: Props) {
       active: onAbout,
     },
     {
+      /* Every page renders the contact block above its footer, so this is
+         always an in-page jump — never a trip back to the homepage. */
       key: "contact",
       label: dict.nav.contact,
-      href: isHome ? "#contact" : `${home}#contact`,
-      active: isHome && section === "#contact",
+      href: "#contact",
+      active: section === "#contact",
     },
   ];
 
-  /* Scrollspy for the in-page anchors, homepage only. */
+  /* Scrollspy for the in-page anchors. */
   useEffect(() => {
-    if (!isHome) return;
-
     const sections = ["#top", "#products", "#contact"]
       .map((id) => document.querySelector<HTMLElement>(id))
       .filter((el): el is HTMLElement => Boolean(el));
@@ -78,7 +78,7 @@ export default function SiteHeader({ locale, dict }: Props) {
 
     sections.forEach((s) => io.observe(s));
     return () => io.disconnect();
-  }, [isHome]);
+  }, [pathname]);
 
   /* The mobile sheet closes from each link's onClick; Escape closes it too. */
   useEffect(() => {

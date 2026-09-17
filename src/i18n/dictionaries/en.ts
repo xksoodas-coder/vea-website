@@ -18,6 +18,7 @@ const en: Dictionary = {
     mainNav: "Main navigation",
     openMenu: "Open menu",
     closeMenu: "Close menu",
+    close: "Close",
     skipToContent: "Skip to content",
     homeLink: "Home",
     carousel: "Promotions and offers",

@@ -293,6 +293,64 @@
 }
 
 /* ==========================================================================
+   Product dialog
+   Native <dialog>, so Escape, focus trapping and the top layer come for
+   free. The transitions need `allow-discrete` because `display` and
+   `overlay` both flip discretely when the dialog opens and closes.
+   ========================================================================== */
+
+body:has(dialog[open]) {
+  overflow: hidden;
+}
+
+.product-dialog {
+  opacity: 0;
+  transform: translateY(16px) scale(0.98);
+  transition:
+    opacity 0.3s var(--ease-out-soft),
+    transform 0.35s var(--ease-out-soft),
+    overlay 0.35s allow-discrete,
+    display 0.35s allow-discrete;
+}
+
+.product-dialog[open] {
+  opacity: 1;
+  transform: none;
+}
+
+@starting-style {
+  .product-dialog[open] {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+}
+
+/* The resting blur is 0.01px rather than 0: a zero-length blur is minified
+   down to an empty `blur()`, which invalidates the declaration and leaves
+   nothing for the open state to transition from. */
+.product-dialog::backdrop {
+  background-color: rgb(48 30 43 / 0);
+  backdrop-filter: blur(0.01px);
+  transition:
+    background-color 0.3s,
+    backdrop-filter 0.3s,
+    overlay 0.3s allow-discrete,
+    display 0.3s allow-discrete;
+}
+
+.product-dialog[open]::backdrop {
+  background-color: rgb(48 30 43 / 0.67);
+  backdrop-filter: blur(6px);
+}
+
+@starting-style {
+  .product-dialog[open]::backdrop {
+    background-color: rgb(48 30 43 / 0);
+    backdrop-filter: blur(0.01px);
+  }
+}
+
+/* ==========================================================================
    Scroll reveal (driven by IntersectionObserver in <RevealObserver />)
    ========================================================================== */
 
