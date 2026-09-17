@@ -45,11 +45,7 @@ export default function MapPanel({
         clear();
         setLive(false);
       }}
-      className={`relative h-80 overflow-hidden rounded-card border transition-[border-color,box-shadow] duration-300 lg:h-full lg:min-h-[24rem] ${
-        live
-          ? "border-brand-300/70 shadow-[0_0_0_3px_rgba(128,152,226,0.20)]"
-          : "border-white/12"
-      }`}
+      className="absolute inset-0 overflow-hidden"
     >
       <iframe
         src={mapEmbedSrc(locale)}
@@ -67,7 +63,7 @@ export default function MapPanel({
           live ? "opacity-0" : "opacity-100"
         }`}
       >
-        <span className="glass-btn rounded-full px-3.5 py-1.5 text-xs font-medium text-white">
+        <span className="glass-btn rounded-full px-3.5 py-1.5 text-xs text-plum">
           {dict.map.hint}
         </span>
       </div>
@@ -77,11 +73,11 @@ export default function MapPanel({
         href={site.map.href}
         target="_blank"
         rel="noopener noreferrer"
-        className="glass-btn absolute end-3 bottom-3 z-10 inline-flex items-center gap-2 rounded-full px-4 py-2.5 text-xs font-semibold text-white transition-[background-color,scale] duration-200 hover:scale-[1.03] hover:bg-brand-950/55"
+        className="glass-btn absolute inset-x-4 bottom-6 z-10 inline-flex items-center justify-between gap-3 rounded-[10px] px-4 py-3 text-xs text-plum transition-[background-color,scale] duration-200 hover:scale-[1.01] hover:bg-ivory"
       >
         <MapPin className="size-4" />
         {dict.map.open}
-        <ArrowUpLeft className="size-3.5 opacity-80" />
+        <ArrowUpLeft className="size-3.5 -scale-x-100 opacity-80 rtl:scale-x-100" />
       </a>
     </div>
   );

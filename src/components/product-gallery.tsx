@@ -56,7 +56,7 @@ export default function ProductGallery({
       aria-label={dict.a11y.productImages}
     >
       {/* Main image */}
-      <div className="relative aspect-square overflow-hidden bg-surface-2">
+      <div className="relative aspect-square overflow-hidden rounded-[18px] bg-surface-2">
         {images.map((src, i) => (
           <Image
             key={src + i}
@@ -78,7 +78,7 @@ export default function ProductGallery({
               type="button"
               onClick={() => go(index - 1)}
               aria-label={dict.a11y.prevSlide}
-              className="absolute start-3 top-1/2 z-10 flex size-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-white/80 text-brand-600 shadow-arrow backdrop-blur-[2px] transition-[background-color,scale] duration-200 hover:scale-110 hover:bg-white"
+              className="absolute start-3 top-1/2 z-10 flex size-10 -translate-y-1/2 cursor-pointer items-center justify-center glass-btn rounded-full text-plum transition-[background-color,scale] duration-300 hover:scale-110 hover:bg-ivory"
             >
               <ChevronRight className="size-5 ltr:rotate-180" strokeWidth={2.25} />
             </button>
@@ -86,7 +86,7 @@ export default function ProductGallery({
               type="button"
               onClick={() => go(index + 1)}
               aria-label={dict.a11y.nextSlide}
-              className="absolute end-3 top-1/2 z-10 flex size-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-white/80 text-brand-600 shadow-arrow backdrop-blur-[2px] transition-[background-color,scale] duration-200 hover:scale-110 hover:bg-white"
+              className="absolute end-3 top-1/2 z-10 flex size-10 -translate-y-1/2 cursor-pointer items-center justify-center glass-btn rounded-full text-plum transition-[background-color,scale] duration-300 hover:scale-110 hover:bg-ivory"
             >
               <ChevronLeft className="size-5 ltr:rotate-180" strokeWidth={2.25} />
             </button>
@@ -111,10 +111,10 @@ export default function ProductGallery({
                   aria-current={isActive}
                   /* Inset rings: an outer ring would be clipped by the
                      horizontally scrolling list at the first thumbnail. */
-                  className={`relative block size-20 shrink-0 cursor-pointer overflow-hidden bg-surface-2 transition-[box-shadow,opacity] duration-200 md:size-24 ${
+                  className={`relative block size-20 shrink-0 cursor-pointer overflow-hidden rounded-[9px] bg-surface-2 transition-[box-shadow,opacity] duration-200 md:size-24 ${
                     isActive
-                      ? "shadow-[inset_0_0_0_2px_var(--color-brand-600)]"
-                      : "opacity-70 shadow-[inset_0_0_0_1px_var(--color-line)] hover:opacity-100 hover:shadow-[inset_0_0_0_2px_var(--color-brand-300)]"
+                      ? "shadow-[inset_0_0_0_2px_var(--color-plum)]"
+                      : "opacity-70 shadow-[inset_0_0_0_1px_var(--color-line)] hover:opacity-100 hover:shadow-[inset_0_0_0_2px_var(--color-line-strong)]"
                   }`}
                 >
                   <Image

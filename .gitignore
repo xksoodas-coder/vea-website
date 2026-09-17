@@ -42,3 +42,4 @@ next-env.d.ts
 
 # Catalogue written by the dashboard
 /public/uploads/
+data/local-dev.db*

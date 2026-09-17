@@ -45,7 +45,7 @@ export default function LanguageSwitcher({ locale, label }: Props) {
         aria-expanded={open}
         aria-haspopup="menu"
         aria-label={label}
-        className="flex h-11 cursor-pointer items-center gap-1.5 rounded-lg px-2.5 text-sm font-semibold text-ink-soft transition-colors duration-200 hover:bg-brand-50 hover:text-brand-600"
+        className="flex h-11 cursor-pointer items-center gap-1.5 rounded-full border border-line-strong px-3 text-[0.8125rem] text-plum transition-colors duration-300 hover:bg-blush"
       >
         <Globe className="size-[1.125rem]" />
         <span className="tabular">{localeShortNames[locale]}</span>
@@ -57,7 +57,7 @@ export default function LanguageSwitcher({ locale, label }: Props) {
       {open && (
         <ul
           role="menu"
-          className="absolute end-0 top-full z-50 mt-1 min-w-[9.5rem] overflow-hidden rounded-xl border border-line bg-white py-1 shadow-lift"
+          className="absolute end-0 top-full z-50 mt-2 min-w-[9.5rem] overflow-hidden rounded-xl border border-line bg-card py-1 shadow-lift"
         >
           {locales.map((code) => {
             const isCurrent = code === locale;
@@ -73,8 +73,8 @@ export default function LanguageSwitcher({ locale, label }: Props) {
                   onClick={() => setOpen(false)}
                   className={`block px-4 py-2.5 text-start text-sm transition-colors duration-150 ${
                     isCurrent
-                      ? "bg-brand-50 font-semibold text-brand-600"
-                      : "font-medium text-ink hover:bg-brand-50 hover:text-brand-600"
+                      ? "bg-blush/50 font-semibold text-plum"
+                      : "text-ink-soft hover:bg-blush/40 hover:text-plum"
                   }`}
                 >
                   {localeNames[code]}

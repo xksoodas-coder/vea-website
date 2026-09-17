@@ -10,13 +10,13 @@ import type { SlideView } from "@/lib/view";
 const AUTOPLAY_MS = 6000;
 
 /**
- * Arrows sit faded over the artwork and turn solid white — and a touch
- * larger — on hover/focus, so they never compete with the banner at rest.
- * `scale` (not `transform`) is the animated property: Tailwind v4 emits the
- * standalone CSS property, so listing `transform` here would not animate.
+ * Arrows sit as ivory discs over the artwork — the same frosted paper the
+ * page is made of, rather than glass. `scale` (not `transform`) is the
+ * animated property: Tailwind v4 emits the standalone CSS property, so
+ * listing `transform` here would not animate.
  */
 const arrowClass =
-  "absolute top-1/2 z-10 flex size-12 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-white/45 text-brand-600 shadow-arrow backdrop-blur-[2px] transition-[background-color,scale,box-shadow] duration-200 ease-[cubic-bezier(0.22,0.8,0.3,1)] hover:scale-115 hover:bg-white hover:shadow-lg focus-visible:scale-115 focus-visible:bg-white active:scale-105 md:size-14";
+  "glass-btn absolute top-1/2 z-10 flex size-12 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full text-plum transition-[background-color,scale] duration-300 ease-out-soft hover:scale-110 hover:bg-ivory focus-visible:scale-110 active:scale-105 md:size-14";
 
 export default function HeroCarousel({
   slides,
@@ -75,7 +75,8 @@ export default function HeroCarousel({
       onMouseLeave={() => setPaused(false)}
       onFocusCapture={() => setPaused(true)}
       onBlurCapture={() => setPaused(false)}
-      className="relative h-[67%] overflow-hidden bg-brand-900"
+      /* The outsized top-start corner is the identity's signature shape. */
+      className="relative h-[330px] overflow-hidden rounded-[60px_22px_22px_22px] bg-[#e9e4dc] sm:h-[425px] md:h-[470px] lg:h-[540px] lg:rounded-[110px_22px_22px_22px] rtl:rounded-[22px_60px_22px_22px] lg:rtl:rounded-[22px_110px_22px_22px]"
     >
       {slides.map((slide, i) => {
         const isActive = i === index;
@@ -89,7 +90,7 @@ export default function HeroCarousel({
             aria-label={`${i + 1} / ${count}`}
             aria-hidden={!isActive}
             inert={!isActive}
-            className={`absolute inset-0 transition-opacity duration-700 ease-[cubic-bezier(0.22,0.8,0.3,1)] ${
+            className={`absolute inset-0 transition-opacity duration-700 ease-out-soft ${
               isActive ? "opacity-100" : "opacity-0"
             }`}
           >
@@ -132,9 +133,9 @@ export default function HeroCarousel({
             type="button"
             onClick={prev}
             aria-label={dict.a11y.prevSlide}
-            className={arrowClass + " start-4 md:start-8"}
+            className={arrowClass + " start-4 md:start-6"}
           >
-            <ChevronRight className="size-7 ltr:rotate-180" strokeWidth={2.25} />
+            <ChevronRight className="size-6 ltr:rotate-180" />
           </button>
 
           {/* Next — end side */}
@@ -142,12 +143,12 @@ export default function HeroCarousel({
             type="button"
             onClick={next}
             aria-label={dict.a11y.nextSlide}
-            className={arrowClass + " end-4 md:end-8"}
+            className={arrowClass + " end-4 md:end-6"}
           >
-            <ChevronLeft className="size-7 ltr:rotate-180" strokeWidth={2.25} />
+            <ChevronLeft className="size-6 ltr:rotate-180" />
           </button>
 
-          {/* Dots — inside a glass pill so they read over light artwork too */}
+          {/* Dots — inside a frosted ivory pill, matching the arrows. */}
           <div className="absolute inset-x-0 bottom-5 z-10 flex justify-center md:bottom-7">
             <div className="glass-btn flex items-center gap-0.5 rounded-full px-1.5">
               {slides.map((slide, i) => (
@@ -162,8 +163,8 @@ export default function HeroCarousel({
                   <span
                     className={`block h-1.5 rounded-full transition-all duration-300 ${
                       i === index
-                        ? "w-6 bg-white"
-                        : "w-1.5 bg-white/55 group-hover:bg-white/90"
+                        ? "w-6 bg-plum"
+                        : "w-1.5 bg-plum/30 group-hover:bg-plum/60"
                     }`}
                   />
                 </button>

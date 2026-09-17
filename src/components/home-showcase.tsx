@@ -29,32 +29,36 @@ export default function HomeShowcase({
   return (
     <>
       {/*
-        First screen: banner and category strip split the viewport 67/33 at
-        any size. `dvh` so mobile browser chrome doesn't clip it; the
-        min-height keeps both readable on very short windows.
+        The banner sits on the ivory page inside a soft-cornered frame rather
+        than bleeding to the edges — the oversized top-start radius is the
+        signature shape of the identity.
       */}
-      <div className="h-[calc(100dvh-4rem)] min-h-[34rem]">
+      <div className="container-page pt-9 pb-8 md:pt-12 md:pb-10">
         <HeroCarousel slides={slides} dict={dict} />
-        <CategoryStrip
-          categories={categories}
-          dict={dict}
-          active={active}
-          onSelect={setActive}
-        />
       </div>
 
-      <section id="products" aria-labelledby="products-heading" className="py-14 md:py-20">
-        {/* Wider than `container-page` so the three cards read at full size. */}
-        <div className="mx-auto w-full max-w-[86rem] px-5 md:px-8">
-          <ProductGrid
-            key={active}
-            products={shown}
-            locale={locale}
-            heading={activeLabel}
-            emptyLabel={dict.productsPage.empty}
-            labelledBy={`tab-${active}`}
-          />
-        </div>
+      <CategoryStrip
+        categories={categories}
+        dict={dict}
+        active={active}
+        onSelect={setActive}
+      />
+
+      <section
+        id="products"
+        aria-labelledby="products-heading"
+        className="container-page section-space"
+      >
+        <ProductGrid
+          key={active}
+          products={shown}
+          locale={locale}
+          heading={activeLabel}
+          eyebrow={dict.productsPage.title}
+          ctaLabel={dict.product.details}
+          emptyLabel={dict.productsPage.empty}
+          labelledBy={`tab-${active}`}
+        />
       </section>
     </>
   );

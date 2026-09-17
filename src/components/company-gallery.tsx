@@ -12,7 +12,7 @@ export default function CompanyGallery({ items }: { items: GalleryItemView[] }) 
       {items.map((item, index) => (
         <li
           key={item.id}
-          className="reveal group overflow-hidden rounded-card border border-line bg-white shadow-soft transition-[border-color,box-shadow] duration-300 hover:border-brand-200 hover:shadow-lift"
+          className="reveal group overflow-hidden rounded-card border border-line bg-card shadow-soft transition-[border-color,box-shadow] duration-300 hover:border-line-strong hover:shadow-lift"
           style={{ "--reveal-delay": `${index * 70}ms` } as React.CSSProperties}
         >
           <figure>
@@ -29,7 +29,7 @@ export default function CompanyGallery({ items }: { items: GalleryItemView[] }) 
             {(item.title || item.description) && (
               <figcaption className="p-5">
                 {item.title && (
-                  <h3 className="text-base font-bold text-ink">{item.title}</h3>
+                  <h3 className="text-lg text-ink">{item.title}</h3>
                 )}
                 {item.description && (
                   <p className="mt-2 text-sm leading-relaxed whitespace-pre-line text-ink-soft">

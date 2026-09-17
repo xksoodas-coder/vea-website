@@ -30,7 +30,7 @@ function ContactLink({
       rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
       aria-label={label}
       title={label}
-      className="flex size-9 items-center justify-center rounded-full border border-line text-ink-soft transition-[color,background-color,border-color] duration-200 hover:border-brand-200 hover:bg-brand-50 hover:text-brand-600"
+      className="flex size-9 items-center justify-center rounded-full border border-line text-ink-soft transition-[color,background-color,border-color] duration-200 hover:border-line-strong hover:bg-blush hover:text-plum"
     >
       {children}
     </a>
@@ -43,7 +43,7 @@ export default function TeamGrid({ members }: { members: TeamMemberView[] }) {
       {members.map((member, index) => (
         <li
           key={member.id}
-          className="reveal group flex flex-col overflow-hidden rounded-card border border-line bg-white shadow-soft transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-1 hover:border-brand-200 hover:shadow-lift"
+          className="reveal group flex flex-col overflow-hidden rounded-card border border-line bg-card shadow-soft transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-1 hover:border-line-strong hover:shadow-lift"
           style={{ "--reveal-delay": `${index * 80}ms` } as React.CSSProperties}
         >
           {/* Portrait — a fixed 4:5 plate so uneven uploads still line up. */}
@@ -59,7 +59,7 @@ export default function TeamGrid({ members }: { members: TeamMemberView[] }) {
             ) : (
               <span
                 aria-hidden="true"
-                className="flex size-full items-center justify-center bg-linear-to-br from-brand-50 to-surface-2 text-4xl font-light text-brand-300"
+                className="flex size-full items-center justify-center bg-linear-to-br from-brand-50 to-surface-2 font-serif text-4xl text-brand-300"
               >
                 {initials(member.name)}
               </span>
@@ -67,9 +67,9 @@ export default function TeamGrid({ members }: { members: TeamMemberView[] }) {
           </div>
 
           <div className="flex flex-1 flex-col p-6">
-            <h3 className="text-lg font-bold text-ink">{member.name}</h3>
+            <h3 className="text-xl text-ink">{member.name}</h3>
             {member.role && (
-              <p className="mt-1 text-sm font-medium text-accent">{member.role}</p>
+              <p className="mt-1 text-sm text-rose-ink">{member.role}</p>
             )}
 
             {member.bio && (

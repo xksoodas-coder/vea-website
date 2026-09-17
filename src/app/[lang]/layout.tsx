@@ -52,7 +52,7 @@ export async function generateMetadata({
 }
 
 export const viewport: Viewport = {
-  themeColor: "#14357f",
+  themeColor: "#492c40",
   colorScheme: "light",
 };
 
@@ -74,7 +74,7 @@ export default async function RootLayout({
       data-scroll-behavior="smooth"
       className={`${arabic.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col bg-surface">
+      <body className="flex min-h-full flex-col bg-ivory">
         {children}
         <RevealObserver />
       </body>

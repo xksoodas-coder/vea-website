@@ -6,6 +6,8 @@ export default function ProductGrid({
   products,
   locale,
   heading,
+  eyebrow,
+  ctaLabel,
   emptyLabel,
   cardSize = "default",
   headingId = "products-heading",
@@ -14,6 +16,9 @@ export default function ProductGrid({
   products: ProductView[];
   locale: Locale;
   heading?: string;
+  /** Small-caps label set above the heading. */
+  eyebrow?: string;
+  ctaLabel: string;
   emptyLabel: string;
   cardSize?: "default" | "large";
   headingId?: string;
@@ -23,12 +28,12 @@ export default function ProductGrid({
   return (
     <>
       {heading && (
-        <h2
-          id={headingId}
-          className="mb-9 text-center text-2xl font-bold text-brand-600 md:mb-12 md:text-[2rem]"
-        >
-          {heading}
-        </h2>
+        <header className="mb-8 md:mb-10">
+          {eyebrow && <p className="eyebrow mb-4 text-rose-ink">{eyebrow}</p>}
+          <h2 id={headingId} className="text-[clamp(2.2rem,4vw,3.65rem)]">
+            {heading}
+          </h2>
+        </header>
       )}
 
       {products.length === 0 ? (
@@ -39,15 +44,20 @@ export default function ProductGrid({
           role={labelledBy ? "tabpanel" : undefined}
           aria-labelledby={labelledBy}
           tabIndex={labelledBy ? -1 : undefined}
-          className="grid grid-cols-1 gap-x-4 gap-y-10 sm:grid-cols-2 md:gap-y-14 lg:grid-cols-3"
+          className="grid grid-cols-2 gap-x-3.5 gap-y-7 sm:gap-x-6 sm:gap-y-9 md:grid-cols-3 md:gap-x-7 md:gap-y-11 lg:gap-x-[30px] lg:gap-y-[45px]"
         >
           {products.map((product, i) => (
             <div
               key={product.id}
-              className="animate-[fade-up_0.45s_cubic-bezier(0.22,0.8,0.3,1)_both]"
+              className="animate-[fade-up_0.45s_cubic-bezier(0.22,1,0.36,1)_both]"
               style={{ animationDelay: `${i * 55}ms` }}
             >
-              <ProductCard product={product} locale={locale} size={cardSize} />
+              <ProductCard
+                product={product}
+                locale={locale}
+                ctaLabel={ctaLabel}
+                size={cardSize}
+              />
             </div>
           ))}
         </div>

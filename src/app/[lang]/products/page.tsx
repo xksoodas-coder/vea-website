@@ -36,15 +36,16 @@ export default async function ProductsPage({ params }: PageProps<"/[lang]/produc
     <>
       <SiteHeader locale={lang} dict={dict} />
 
-      <main className="flex-1 py-14 md:py-20">
-        <div className="mx-auto w-full max-w-[86rem] px-5 md:px-8">
-          <header className="mb-10 text-center md:mb-14">
-            <h1 className="text-3xl font-bold text-brand-600 md:text-[2.5rem]">
-              {dict.productsPage.title}
-            </h1>
-            <p className="mx-auto mt-3 max-w-2xl text-[0.9375rem] text-ink-soft">
-              {dict.productsPage.subtitle}
-            </p>
+      <main className="flex-1">
+        <div className="container-page section-space">
+          <header className="mb-10 flex flex-col gap-5 md:mb-12 md:flex-row md:items-end md:justify-between md:gap-11">
+            <div>
+              <p className="eyebrow mb-4 text-rose-ink">{dict.nav.products}</p>
+              <h1 className="text-[clamp(2.2rem,4vw,3.65rem)]">
+                {dict.productsPage.title}
+              </h1>
+            </div>
+            <p className="max-w-[340px] text-ink-soft">{dict.productsPage.subtitle}</p>
           </header>
 
           <ProductsBrowser
