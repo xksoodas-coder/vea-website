@@ -75,8 +75,12 @@ export default function HeroCarousel({
       onMouseLeave={() => setPaused(false)}
       onFocusCapture={() => setPaused(true)}
       onBlurCapture={() => setPaused(false)}
-      /* The outsized top-start corner is the identity's signature shape. */
-      className="relative h-[330px] overflow-hidden rounded-[60px_22px_22px_22px] bg-[#e9e4dc] sm:h-[425px] md:h-[470px] lg:h-[540px] lg:rounded-[110px_22px_22px_22px] rtl:rounded-[22px_60px_22px_22px] lg:rtl:rounded-[22px_110px_22px_22px]"
+      /*
+        Edge to edge, so the only rounding left is the outsized cut on the
+        top start corner — the identity's signature shape. `rounded-ss`
+        is logical, so it moves to the right in Arabic.
+      */
+      className="relative h-[330px] overflow-hidden rounded-none rounded-ss-[60px] bg-[#e9e4dc] sm:h-[425px] md:h-[470px] lg:h-[560px] lg:rounded-ss-[110px] xl:h-[620px]"
     >
       {slides.map((slide, i) => {
         const isActive = i === index;
@@ -133,7 +137,7 @@ export default function HeroCarousel({
             type="button"
             onClick={prev}
             aria-label={dict.a11y.prevSlide}
-            className={arrowClass + " start-4 md:start-6"}
+            className={arrowClass + " start-4 md:start-8 lg:start-12"}
           >
             <ChevronRight className="size-6 ltr:rotate-180" />
           </button>
@@ -143,7 +147,7 @@ export default function HeroCarousel({
             type="button"
             onClick={next}
             aria-label={dict.a11y.nextSlide}
-            className={arrowClass + " end-4 md:end-6"}
+            className={arrowClass + " end-4 md:end-8 lg:end-12"}
           >
             <ChevronLeft className="size-6 ltr:rotate-180" />
           </button>
