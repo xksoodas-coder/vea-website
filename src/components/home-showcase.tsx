@@ -33,9 +33,9 @@ export default function HomeShowcase({
         than bleeding to the edges — the oversized top-start radius is the
         signature shape of the identity.
       */}
-      {/* Full bleed — no gutter at all. The banner is the first thing on the
-          page and runs the whole width of the window. */}
-      <div className="w-full pt-6 pb-8 md:pt-8 md:pb-10">
+      {/* Near full bleed: the banner runs the width of the window, held off
+          the edge by a hairline gutter so it reads as a panel on the page. */}
+      <div className="w-full px-3 pt-6 pb-8 sm:px-4 md:pt-8 md:pb-10 lg:px-6">
         <HeroCarousel slides={slides} dict={dict} />
       </div>
 

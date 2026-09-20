@@ -76,11 +76,11 @@ export default function HeroCarousel({
       onFocusCapture={() => setPaused(true)}
       onBlurCapture={() => setPaused(false)}
       /*
-        Edge to edge, so the only rounding left is the outsized cut on the
-        top start corner — the identity's signature shape. `rounded-ss`
-        is logical, so it moves to the right in Arabic.
+        Softly rounded all round, with an outsized cut on the top start
+        corner — the identity's signature shape. `rounded-ss` is logical, so
+        that cut moves to the right in Arabic.
       */
-      className="relative h-[330px] overflow-hidden rounded-none rounded-ss-[60px] bg-[#e9e4dc] sm:h-[425px] md:h-[470px] lg:h-[560px] lg:rounded-ss-[110px] xl:h-[620px]"
+      className="relative h-[330px] overflow-hidden rounded-[22px] rounded-ss-[60px] bg-[#e9e4dc] sm:h-[425px] md:h-[470px] lg:h-[560px] lg:rounded-ss-[110px] xl:h-[620px]"
     >
       {slides.map((slide, i) => {
         const isActive = i === index;
