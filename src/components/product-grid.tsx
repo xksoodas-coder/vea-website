@@ -14,7 +14,6 @@ export default function ProductGrid({
   dict,
   heading,
   eyebrow,
-  cardSize = "default",
   headingId = "products-heading",
   labelledBy,
 }: {
@@ -24,7 +23,6 @@ export default function ProductGrid({
   heading?: string;
   /** Small-caps label set above the heading. */
   eyebrow?: string;
-  cardSize?: "default" | "large";
   headingId?: string;
   /** Set when the grid is the panel of a tablist. */
   labelledBy?: string;
@@ -50,7 +48,7 @@ export default function ProductGrid({
           role={labelledBy ? "tabpanel" : undefined}
           aria-labelledby={labelledBy}
           tabIndex={labelledBy ? -1 : undefined}
-          className="grid grid-cols-2 gap-x-3.5 gap-y-7 sm:gap-x-6 sm:gap-y-9 md:grid-cols-3 md:gap-x-7 md:gap-y-11 lg:gap-x-[30px] lg:gap-y-[45px]"
+          className="grid gap-[22px] md:grid-cols-2 md:gap-[25px]"
         >
           {products.map((product, i) => (
             <div
@@ -61,8 +59,9 @@ export default function ProductGrid({
               <ProductCard
                 product={product}
                 locale={locale}
+                index={i}
+                ctaLabel={dict.product.details}
                 onOpen={setOpened}
-                size={cardSize}
               />
             </div>
           ))}

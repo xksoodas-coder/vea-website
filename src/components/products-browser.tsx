@@ -80,7 +80,6 @@ export default function ProductsBrowser({
         products={shown}
         locale={locale}
         dict={dict}
-        cardSize="large"
         labelledBy={`ptab-${active}`}
       />
     </>
